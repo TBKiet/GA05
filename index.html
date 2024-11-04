@@ -12,26 +12,79 @@
         <div id="header"></div> <!-- This will load the header.html content -->
 
         <!-- Main Content -->
-        <div>
-            <h1 class="text-center">Welcome to the Index Page</h1>
-            <p class="text-center">This is the index page of the website.</p>
+        <div class="menu-btn">
+            <i class="fas fa-bars fa-2x"></i>
+        </div>
 
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h2>Column 1</h2>
-                        <p>Some text..</p>
-                        <p>Some text..</p>
-                    </div>
-                    <div class="col-md-6">
-                        <h2>Column 2</h2>
-                        <p>Some text..</p>
-                        <p>Some text..</p>
-                    </div>
+        <div class="container">
+            <!-- Showcase -->
+            <header class="showcase">
+                <a href="#" class="btn">
+                    Get Ticket Now <i class="fas fa-chevron-right"></i>
+                </a>
+            </header>
+
+            <h1 class="showing-line">Now Showing</h1>
+            <!-- Home cards 1 -->
+            <section class="home-cards">
+                <div>
+                    <img src="assets/images/film1.png" alt>
+                    <h3>Ngày Xưa Có Một Chuyện Tình</h3>
+                    <a href="#">Book Now<i
+                            class="fas fa-chevron-right"></i></a>
                 </div>
-            </div>
-            <!-- JavaScript to load header.html -->
-            <script>
+                <div>
+                    <img src="assets/images/film2.png" alt />
+                    <h3>Venom 3: Kèo Cuối</h3>
+                    <a href="#">Book Now<i
+                            class="fas fa-chevron-right"></i></a>
+                </div>
+                <div>
+                    <img src="assets/images/film3.png" alt />
+                    <h3>Cô Dâu Hào Môn</h3>
+                    <a href="#">Book Now <i
+                            class="fas fa-chevron-right"></i></a>
+                </div>
+                <div>
+                    <img src="assets/images/film4.png" alt />
+                    <h3>Thiên Đường Quả Báo</h3>
+                    <a href="#"> Book Now <i
+                            class="fas fa-chevron-right"></i></a>
+                </div>
+            </section>
+
+            <h1 class="showing-line">Up Coming</h1>
+            <!-- Home cards 2 -->
+            <section class="home-cards">
+                <div>
+                    <img src="assets/images/up1.png" alt />
+                    <h3>Microsoft Teams</h3>
+                    <a href="#">Book Now <i
+                            class="fas fa-chevron-right"></i></a>
+                </div>
+                <div>
+                    <img src="assets/images/up2.png" alt />
+                    <h3>Unlock the power of learning</h3>
+                    <a href="#">Book Now <i
+                            class="fas fa-chevron-right"></i></a>
+                </div>
+                <div>
+                    <img src="assets/images/up3.png" alt />
+                    <h3>Windows 10 Enterprise</h3>
+                    <a href="#">Book Now <i
+                            class="fas fa-chevron-right"></i></a>
+                </div>
+                <div>
+                    <img src="assets/images/up4.png" alt />
+                    <h3>Explore Kubernetes</h3>
+                    <a href="#">Book Now <i
+                            class="fas fa-chevron-right"></i></a>
+                </div>
+            </section>
+
+        </div>
+        <!-- JavaScript to load header.html -->
+        <script>
         fetch("components/header.html")
             .then(response => response.text())
             .then(data => {
@@ -40,12 +93,12 @@
             .catch(error => console.error("Error loading header:", error));
         </script>
 
-            <!-- Footer Section -->
-            <div id="footer"></div>
-            <!-- This will load the footer.html content -->
+        <!-- Footer Section -->
+        <div id="footer"></div>
+        <!-- This will load the footer.html content -->
 
-            <!-- JavaScript to load footer.html -->
-            <script>
+        <!-- JavaScript to load footer.html -->
+        <script>
         fetch("components/footer.html")
             .then(response => response.text())
             .then(data => {
@@ -54,13 +107,13 @@
             .catch(error => console.error("Error loading footer:", error));
         </script>
 
-            <!-- Bootstrap and jQuery JS -->
-            <script
-                src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-            <script
-                src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
-            <script
-                src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
-        </body>
+        <!-- Bootstrap and jQuery JS -->
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    </body>
 
-    </html>
+</html>
