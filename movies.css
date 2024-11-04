@@ -128,15 +128,15 @@
     font-weight: bold;
 }
 .book-ticket {
-    display: inline-block;        /* Allows padding and background */
-    padding: 10px 20px;         /* Adds space inside the button */
-    background-color: rgb(239, 143, 74); /* Sets the background color */
-    color: white;                /* Text color */
-    text-align: center;          /* Centers text */
-    text-decoration: none;       /* Removes underline from the link */
-    border-radius: 5px;         /* Rounded corners */
-    font-size: 1.2em;           /* Font size */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    display: inline-block; 
+    padding: 10px 20px;    
+    background-color: rgb(239, 143, 74); 
+    color: white;           
+    text-align: center;        
+    text-decoration: none;    
+    border-radius: 5px;      
+    font-size: 1.2em;          
+    transition: background-color 0.3s;
 }
 
 .book-ticket:hover {
