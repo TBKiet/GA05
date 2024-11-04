@@ -1,4 +1,4 @@
-body {
+.body-login-resgister {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -133,4 +133,40 @@ body {
 .google-icon {
   font-size: 18px;
   margin-bottom: 1px;
+}
+
+.bgc {
+  color: #333;
+  background-color: #f2f2f2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+.container_contact {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+.form-control {
+  border-radius: 0.5rem;
+  border: 2px solid #ddd;
+  padding: 10px;
+}
+.form-control:focus {
+  border-color: #fda085;
+  box-shadow: none;
+}
+.btn {
+  margin-bottom: 8px;
+  color: #7e341f;
+  border-color: #fda085;
+}
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
 }
