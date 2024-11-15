@@ -10,7 +10,7 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "start": "npx nodemon app.js"
+    "start": "npx nodemon -e js,hbs app.js"
   },
   "keywords": [],
   "author": "",
