@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineSeats - Movies</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha384-DyZv+Fh4mFBPvY8I+AvEdqGJj1zM1H5MZQtYpgH1vEpVuwWbPiA6gq4LpD57hY47" crossorigin="anonymous">
+    <link rel="stylesheet" href="movies.css">
+    <script src="node_modules/handlebars/dist/handlebars.js"></script>
+</head>
+
+<body>
+    <!-- Header Section -->
+    <div class="header-blue">
+        <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">
+                    <img src="assets/images/logo.png" alt="CineSeats Logo" height="40">
+                </a>
+                <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navcol-1">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="movies.html">Movies</a></li>
+                        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+                    </ul>
+                    <form class="form-inline ml-auto mr-3">
+                        <div class="form-group">
+                            <label for="search-field"><i class="fa fa-search"></i></label>
+                            <input class="form-control search-field" type="search" name="search" id="search-field"
+                                placeholder="Search for movie">
+                        </div>
+                    </form>
+                    <a href="login.html" class="login navbar-text">Log In</a>
+                    <a href="register.html" class="btn btn-light action-button ml-2">Sign Up</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div id="moviesData"></div>
+    <script id="movies-template" type="text/x-handlebars-template">
+        <div class="container-fluid">
+            <ul class="nav-film">
+                <li class="text-film">PHIM</li>
+                <li class="active-film">Đang chiếu</li>
+                <li class="inactive-film">Sắp chiếu</li>
+            </ul>
+            <div class="row gx-3 gx-sm-4 gy-3 gy-sm-4">
+                {{#each movies}}
+                <div class="col-6 col-sm-6 col-xl-3" id="mv-img">
+                    <div class="brief-des">
+                        <a href="movies-details.html"><img src="img/{{mvimg}}.png" alt="{{mvname}}" class="img-fluid"></a>
+                        <div class="rating">
+                            <i class="fa-solid fa-star"></i>
+                            <p>{{mvrating}}</p>
+                        </div>
+                        <div class="age-limit">{{mvlimit}}</div>
+                    </div>
+                    <p class="mv-name">{{mvname}}</p>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </script>
+    <script type="text/javascript">
+        var movieInfo = document.getElementById("movies-template").innerHTML;
+        var template = Handlebars.compile(movieInfo);
+        let movie = [{ mvname: 'Venom: Kèo Cuối', mvimg: 'venom', mvrating: '6.7', mvlimit: '16+' },
+        { mvname: 'Ngày Xưa Có Một Chuyện Tình', mvimg: 'nxcmct', mvrating: '7.5', mvlimit: '13+' },
+        { mvname: 'Red One: Mật Mã Đỏ', mvimg: 'ro', mvrating: '7.3', mvlimit: '16+' },
+        { mvname: 'Thiên Đường Quả Báo', mvimg: 'tdqb', mvrating: '7.8', mvlimit: '13+' },
+        { mvname: 'Học Viện Anh Hùng: You\'re Next', mvimg: 'hvah', mvrating: '7.2', mvlimit: '16+' },
+        { mvname: 'Cười Xuyên Biên Giới', mvimg: 'cxbg', mvrating: '6.9', mvlimit: '13+' },
+        { mvname: 'Đừng Buông Tay', mvimg: 'dbt', mvrating: '7.1', mvlimit: '13+' },
+        { mvname: 'Ai Oán Trong Vườn Xuân', mvimg: 'aotvx', mvrating: '7.4', mvlimit: '16+' },
+        { mvname: 'Đôi Bạn Học Yêu', mvimg: 'dbhy', mvrating: '7.0', mvlimit: '13+' },
+        { mvname: 'Đi Karaoke Đi!', mvimg: 'dkd', mvrating: '7.6', mvlimit: '16+' },
+        { mvname: 'Tình Ta Đẹp Tựa Đóa Hoa', mvimg: 'ttdtdh', mvrating: '7.7', mvlimit: '13+' },
+        { mvname: 'Sand Land', mvimg: 'sl', mvrating: '7.9', mvlimit: '13+' },
+        { mvname: 'Elli Và Bí Ẩn Chiếc Tàu Ma', mvimg: 'elli', mvrating: '7.0', mvlimit: '16+' },
+        { mvname: 'Cô Dâu Hào Môn', mvimg: 'cdhm', mvrating: '7.4', mvlimit: '13+' },
+        { mvname: 'Robot Hoang Dã', mvimg: 'rbhd', mvrating: '7.5', mvlimit: '13+' },
+        { mvname: 'Tee Yod: Quỷ Ăn Tạng Phần 2', mvimg: 'ty', mvrating: '7.8', mvlimit: '16+' }];
+        var moviesData = template({
+            movies: [{ mvname: 'Venom: Kèo Cuối', mvimg: 'venom', mvrating: '6.7', mvlimit: '16+' },
+            { mvname: 'Ngày Xưa Có Một Chuyện Tình', mvimg: 'nxcmct', mvrating: '7.5', mvlimit: '13+' },
+            { mvname: 'Red One: Mật Mã Đỏ', mvimg: 'ro', mvrating: '7.3', mvlimit: '16+' },
+            { mvname: 'Thiên Đường Quả Báo', mvimg: 'tdqb', mvrating: '7.8', mvlimit: '13+' },
+            { mvname: 'Học Viện Anh Hùng: You\'re Next', mvimg: 'hvah', mvrating: '7.2', mvlimit: '16+' },
+            { mvname: 'Cười Xuyên Biên Giới', mvimg: 'cxbg', mvrating: '6.9', mvlimit: '13+' },
+            { mvname: 'Đừng Buông Tay', mvimg: 'dbt', mvrating: '7.1', mvlimit: '13+' },
+            { mvname: 'Ai Oán Trong Vườn Xuân', mvimg: 'aotvx', mvrating: '7.4', mvlimit: '16+' },
+            { mvname: 'Đôi Bạn Học Yêu', mvimg: 'dbhy', mvrating: '7.0', mvlimit: '13+' },
+            { mvname: 'Đi Karaoke Đi!', mvimg: 'dkd', mvrating: '7.6', mvlimit: '16+' },
+            { mvname: 'Tình Ta Đẹp Tựa Đóa Hoa', mvimg: 'ttdtdh', mvrating: '7.7', mvlimit: '13+' },
+            { mvname: 'Sand Land', mvimg: 'sl', mvrating: '7.9', mvlimit: '13+' },
+            { mvname: 'Elli Và Bí Ẩn Chiếc Tàu Ma', mvimg: 'elli', mvrating: '7.0', mvlimit: '16+' },
+            { mvname: 'Cô Dâu Hào Môn', mvimg: 'cdhm', mvrating: '7.4', mvlimit: '13+' },
+            { mvname: 'Robot Hoang Dã', mvimg: 'rbhd', mvrating: '7.5', mvlimit: '13+' },
+            { mvname: 'Tee Yod: Quỷ Ăn Tạng Phần 2', mvimg: 'ty', mvrating: '7.8', mvlimit: '16+' }]
+        });
+        document.getElementById("moviesData").innerHTML += moviesData;
+    </script>
+
+    <!-- Movies Section -->
+
+    <!-- Footer Section -->
+    <footer class="footer-section">
+        <div class="container">
+            <div class="footer-cta pt-5 pb-5">
+                <div class="row">
+                    <div class="col-xl-4 col-md-4 mb-30">
+                        <div class="single-cta">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div class="cta-text">
+                                <h4>Find Us</h4>
+                                <span>227 Đ. Nguyễn Văn Cừ, Quận 5, Hồ Chí Minh</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-4 mb-30">
+                        <div class="single-cta">
+                            <i class="fas fa-phone"></i>
+                            <div class="cta-text">
+                                <h4>Call Us</h4>
+                                <span>+84 9876543210</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-4 mb-30">
+                        <div class="single-cta">
+                            <i class="far fa-envelope-open"></i>
+                            <div class="cta-text">
+                                <h4>Email Us</h4>
+                                <span>support@CineSeats.com</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-content pt-5 pb-5">
+                <div class="row">
+                    <div class="col-xl-4 col-lg-4 mb-50">
+                        <div class="footer-widget">
+                            <div class="footer-logo">
+                                <a href="index.html"><img src="assets/images/logo.png" class="img-fluid" alt="Logo"></a>
+                            </div>
+                            <div class="footer-social-icon">
+                                <span>Follow Us</span>
+                                <a href="https://www.facebook.com"><i class="fab fa-facebook-f"></i></a>
+                                <a href="https://x.com"><i class="fab fa-twitter"></i></a>
+                                <a href="https://instagram.com/"><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
+                        <div class="footer-widget">
+                            <h3>Useful Links</h3>
+                            <ul>
+                                <li><a href="#">Home</a></li>
+                                <li><a href="#">Book Tickets</a></li>
+                                <li><a href="#">FAQs</a></li>
+                                <li><a href="contact.html">Contact Us</a></li>
+                                <li><a href="about.html">About Us</a></li>
+                                <li><a href="login.html">User Account</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-6 mb-50">
+                        <div class="footer-widget">
+                            <h3>Subscribe</h3>
+                            <p>Stay updated with our latest events and offers! Subscribe to our newsletter below:</p>
+                            <form action="#">
+                                <input type="email" placeholder="Enter your email address" required>
+                                <button type="submit"><i class="fab fa-telegram-plane"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
