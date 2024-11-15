@@ -33,8 +33,14 @@ app.get('/about', (req, res) => {
     res.render('about', {layout: 'main'});
 });
 
+app.get('/contact', (req, res) => {
+    res.render('contact', {layout: 'main'});
+});
 app.get('/register', (req, res) => {
     res.render('register', {layout: 'main'});
+});
+app.get('/login', (req, res) => {
+    res.render('login', {layout: 'main'});
 });
 // Start the server
 app.listen(PORT, () => {
