@@ -3,11 +3,11 @@ const { engine } = require("express-handlebars"); // Import `engine` instead of 
 const path = require("path");
 const router = express.Router();
 const cloudinary = require("./cloud");
+const mongoose = require("mongoose");
 
 const app = express();
 const PORT = 3000;
 
-const mongoose = require("mongoose");
 const movie = require("./components/movies/movies.routes");
 app.use("/movies", movie);
 // Set up Handlebars view engine
