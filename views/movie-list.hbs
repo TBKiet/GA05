@@ -1,11 +1,16 @@
 <section>
     <div class="container-fluid">
+        <ul class="nav-film">
+            <li class="text-film">PHIM</li>
+            <li class="active-film">Đang chiếu</li>
+            <li class="inactive-film">Sắp chiếu</li>
+        </ul>
         <div class="row gx-3 gx-sm-4 gy-3 gy-sm-4">
             {{#each movies}}
                 <div class="col-6 col-sm-6 col-xl-3" id="mv-img">
                     <div class="brief-des">
                         <a href="movie-details">
-                            <img src="{{this.imageUrl}}" alt="{{this.title}}" class="img-fluid">
+                            <img src='"{{this.imageUrl}}"' alt="{{this.title}}" class="img-fluid">
                         </a>
                         <div class="rating">
                             <i class="fa-solid fa-star"></i>
