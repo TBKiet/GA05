@@ -63,7 +63,7 @@ app.use((req, res) => {
   res.status(404).render("404", { layout: "main" });
 });
 // Start the server
-mongoose.connect(process.env.KHAI_URI)
+mongoose.connect(process.env.MONGODB_URI)
 .then(() => {
   console.log("Connected to the database");
   app.listen(PORT, () => {

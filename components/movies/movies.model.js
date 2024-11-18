@@ -1,12 +1,21 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+const { image } = require('../../cloud');
 
 const movieSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  imgUrl: { type: String, required: true },
-  ageLimit: { type: String, required: true },
-  rating: { type: Number, default: 0 },
+  description: { type: String, required: true },
+  rating: { type: Number, required: true },
+  duration: { type: Number, required: true },
+  start_date: { type: Date, required: true },
+  end_date: { type: Date, required: true },
+  trailer_url: { type: String, required: true },
+  actors: { type: [String], required: true },
+  genre: { type: [String], required: true },
+  image_url: { type: String, required: true },
+  director: { type: String, default: null },
+  production: { type: String, default: null }, 
 });
 
-const Movie = mongoose.model("Movie", movieSchema);
+const Movie = mongoose.model('movie', movieSchema);
 
 module.exports = Movie;

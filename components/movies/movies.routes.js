@@ -4,6 +4,6 @@ const movieController = require("./movies.controller");
 
 // Routes for rendering pages
 router.get("/", movieController.renderMovieList);
-router.get("/add", movieController.renderAddMoviePage);
+router.get("/:mv-name", movieController.renderAddMoviePage);
 
 module.exports = router;
