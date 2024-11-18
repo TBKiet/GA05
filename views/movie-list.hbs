@@ -9,7 +9,7 @@
             {{#each movies}}
                 <div class="col-6 col-sm-6 col-xl-3" id="mv-img">
                     <div class="brief-des">
-                        <a href="movie-details">
+                        <a href="/movies/movie-details/{{this.id}}">
                             <img src="{{this.image_url}}" alt="{{this.title}}" class="img-fluid">
                         </a>
                         <div class="rating">

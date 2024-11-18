@@ -1,53 +1,84 @@
 <section>
     <div class="container-fluid p-0">
+        <!-- Movie Trailer -->
         <div class="ratio ratio-21x9 mb-1 mb-sm-2 mb-xl-3">
-            <iframe class="mv-trailer" src="https://www.youtube.com/embed/2-oT85FKYsQ?si=F2dJH8CIcA2RkHWt"></iframe>
+            <iframe class="mv-trailer" src="{{trailer_url}}"></iframe>
         </div>
+
         <div class="row">
+            <!-- Movie Image -->
             <div class="col-12 col-sm-5 col-xl-5 col-xxl-3 details-des">
-                <img src="images/tdqb.png" alt="Thiên Đường Quả Báo" class="img-fluid px-1 px-sm-2 px-xl-3">
+                <img src="{{image_url}}" alt="{{title}}" class="img-fluid px-1 px-sm-2 px-xl-3">
             </div>
+
+            <!-- Movie Details -->
             <div class="col-12 col-sm-7 col-xl-7 px-4 px-sm-1">
-                <h1>Thiên Đường Quả Báo <span class="age-limit-a">T18</span></h1>
+                <h1>{{title}} <span class="age-limit-a">{{age}}</span></h1>
                 <div class="mv-time">
-                    <p class="me-3"><i class="fa-solid fa-clock" style="color: #74C0FC;"></i> 131 phút</p>
-                    <p><i class="fa-solid fa-calendar" style="color: #74C0FC;"></i> 30/10/2024</p>
+                    <p class="me-3">
+                        <i class="fa-solid fa-clock" style="color: #74C0FC;"></i> {{duration}} phút
+                    </p>
+                    <p>
+                        <i class="fa-solid fa-calendar" style="color: #74C0FC;"></i> {{start_date}}
+                    </p>
                 </div>
                 <div class="mv-rating">
-                    <p><i class="fa-solid fa-star" style="color: #FFD43B;"></i> 8.9 (49 votes)</p>
-                    <p><strong>Quốc gia:</strong> Thái Lan</p>
-                    <p><strong>Nhà sản xuất:</strong> GDH 559, Jai Studios</p>
+                    <p>
+                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i> {{rating}}
+                    </p>
+                    {{!-- Display country if available --}}
+                    {{#if country}}
+                    <p><strong>Quốc gia:</strong> {{country}}</p>
+                    {{else}}
+                    <p><strong>Quốc gia:</strong> Đang cập nhật</p>
+                    {{/if}}
+                    {{!-- Display production if available --}}
+                    {{#if production}}
+                    <p><strong>Nhà sản xuất:</strong> {{production}}</p>
+                    {{else}}
+                    <p><strong>Nhà sản xuất:</strong> Đang cập nhật</p>
+                    {{/if}}
+
+                    <!-- Genre, Director, and Actors Information -->
                     <div class="info-section">
                         <div class="d-flex align-items-center">
                             <span class="label">Thể loại:</span>
                             <ul class="genre-list">
-                                <li>Tâm Lý</li>
-                                <li>Giật Gân</li>
+                                {{#each genre}}
+                                    <li>{{this}}</li>
+                                {{/each}}
                             </ul>
                         </div>
                         <div class="d-flex align-items-center">
                             <span class="label">Đạo diễn:</span>
                             <ul class="genre-list">
-                                <li>Boss Kuno</li>
+                                {{#each director}}
+                                    <li>{{this}}</li>
+                                {{/each}}
                             </ul>
                         </div>
                         <div class="d-flex align-items-center">
                             <span class="label">Diễn viên:</span>
                             <ul class="genre-list">
-                                <li>Jeff Satur</li>
-                                <li>Engfa Waraha</li>
+                                {{#each actors}}
+                                    <li>{{this}}</li>
+                                {{/each}}
                             </ul>
                         </div>
                     </div>
                 </div>
+
+                <!-- Booking Button -->
                 <div class="mt-4">
                     <a href="#" class="book-ticket">Đặt vé</a>
                 </div>
             </div>
         </div>
+
+        <!-- Movie Description -->
         <div class="mx-2 mx-xl-3 mt-3">
-            <div class="text-film ">Nội Dung Phim</div>
-            <p class="mt-2">Thongkam (Jeff Satur) và Sek (Pongsakorn) làm lụng vất vả, cày ngày cày đêm để xây dựng một mái ấm. Sau bao nỗ lực, cuối cùng họ cũng có quyền sở hữu trang trại sầu riêng ở Mae Hong Son. Tuy nhiên, bi kịch bỗng ập tới khi Sek đột ngột qua đời trong một vụ tai nạn vào thời điểm họ chưa kịp đăng ký kết hôn. Chính điều này đã khiến Thongkam không có quyền sở hữu tài sản mà 2 người đã cùng gây dựng. Ngôi nhà và đất đai bao gồm vườn sầu riêng đương nhiên thuộc về mẹ của Sek, người sẽ chuyển đến sống cùng con gái nuôi Mo (Engfa) và người làm vườn Jingna. Thongkam giờ phải đấu tranh để giành lại thành quả của tình yêu và công sức lao động của mình. Liệu giữa Thongkam và Mo, ai sẽ giành được quyền thừa kế , trở thành chủ vựa sầu riêng?
+            <div class="text-film">Nội Dung Phim</div>
+            <p class="mt-2">{{description}}</p>
         </div>
     </div>
 </section>

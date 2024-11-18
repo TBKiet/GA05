@@ -33,9 +33,7 @@ app.get("/index", (req, res) => {
   res.render("home", { layout: "main" });
 });
 
-app.get("/movie-details", (req, res) => {
-  res.render("movie-details", { layout: "main" });
-});
+
 
 // app.get('/movies', (req, res) => {
 //     res.render('movie-list', {layout: 'main'});
