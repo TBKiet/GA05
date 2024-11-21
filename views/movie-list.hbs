@@ -1,0 +1,28 @@
+<section>
+    <div class="container-fluid">
+        <ul class="nav-film">
+            <li class="text-film"><a href=/movies>PHIM</a></li>
+            <li><a class="{{showingMovie_type}}" href="/movies/showing">Đang chiếu</a></li>
+            <li><a class="{{upcomingMovie_type}}" href="/movies/upcoming">Sắp chiếu</a></li>
+        </ul>
+        <div class="row gx-3 gx-sm-4 gy-3 gy-sm-4">
+            {{#each movies}}
+                <div class="col-6 col-sm-6 col-xl-3" id="mv-img">
+                    <div class="brief-des">
+                        <a href="/movies/movie-details/{{this.id}}">
+                            <img src="{{this.image_url}}" alt="{{this.title}}" class="img-fluid">
+                        </a>
+                        <div class="rating">
+                            {{#if this.rating}}
+                                <i class="fa-solid fa-star"></i>
+                                <p>{{this.rating}}</p>
+                            {{/if}}
+                        </div>
+                        <div class="age-limit">{{this.age}}</div>
+                    </div>
+                    <p class="mv-name">{{this.title}}</p>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</section>
