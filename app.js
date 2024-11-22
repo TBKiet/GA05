@@ -5,6 +5,7 @@ const path = require("path");
 const cloudinary = require("./components/cloudinary/config/cloud");
 const mongoose = require("mongoose");
 const movie = require("./components/movies/movies.routes");
+const home = require("./components/users/routes");
 require("./components/auth/config/db");
 const userRouter = require("./components/auth/api/user");
 
@@ -36,10 +37,11 @@ app.set("view engine", "hbs");
 
 
 // Define home route
-app.get("/", (req, res) => {
-  res.render("home", { layout: "main" });
-});
+// app.get("/", (req, res) => {
+//   res.render("home", { layout: "main" });
+// });
 
+app.use("/", home);
 app.use("/movies", movie);
 // app.get("/index", (req, res) => {
 //   res.render("home", { layout: "main" });
@@ -68,9 +70,9 @@ app.get("/login", (req, res) => {
   res.render("login", { layout: "main" });
 });
 
-app.use((req, res) => {
-  res.status(404).render("404", { layout: "main" });
-});
+// app.use((req, res) => {
+//   res.status(404).render("404", { layout: "main" });
+// });
 
 // Start the server
 mongoose

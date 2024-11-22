@@ -11,64 +11,57 @@
                 Get Ticket Now <i class="fas fa-chevron-right"></i>
             </a>
         </header>
-
         <h1 class="showing-line">Now Showing</h1>
         <!-- Home cards 1 -->
-        <section class="home-cards">
-            <div>
-                <img src="images/film1.png" alt>
-                <h3>Ngày Xưa Có Một Chuyện Tình</h3>
-                <a href="#">Book Now<i
-                        class="fas fa-chevron-right"></i></a>
+        <div class="slider-container showing-slider">
+            <button class="slider-btn prev" onclick="moveSlide('showing', -1)">❮</button>
+            <div class="slider">
+                {{#each showingMovies}}
+                    <div class="movie-slide col-6 col-sm-6 col-xl-3" id="mv-img">
+                        <div class="brief-des">
+                            <a href="/movies/movie-details/{{this.id}}">
+                                <img src="{{this.image_url}}" alt="{{this.title}}" class="img-fluid">
+                            </a>
+                            <div class="rating">
+                                {{#if this.rating}}
+                                    <i class="fa-solid fa-star"></i>
+                                    <p>{{this.rating}}</p>
+                                {{/if}}
+                            </div>
+                            <div class="age-limit">{{this.age}}</div>
+                        </div>
+                        <p class="mv-name">{{this.title}}</p>
+                    </div>
+                {{/each}}
             </div>
-            <div>
-                <img src="images/film2.png" alt/>
-                <h3>Venom 3: Kèo Cuối</h3>
-                <a href="#">Book Now<i
-                        class="fas fa-chevron-right"></i></a>
-            </div>
-            <div>
-                <img src="images/film3.png" alt/>
-                <h3>Cô Dâu Hào Môn</h3>
-                <a href="#">Book Now <i
-                        class="fas fa-chevron-right"></i></a>
-            </div>
-            <div>
-                <img src="images/film4.png" alt/>
-                <h3>Thiên Đường Quả Báo</h3>
-                <a href="#"> Book Now <i
-                        class="fas fa-chevron-right"></i></a>
-            </div>
-        </section>
+            <button class="slider-btn next" onclick="moveSlide('showing', 1)">❯</button>
+        </div>
 
         <h1 class="showing-line">Upcoming</h1>
         <!-- Home cards 2 -->
-        <section class="home-cards">
-            <div>
-                <img src="images/up1.png" alt/>
-                <h3>Microsoft Teams</h3>
-                <a href="#">Book Now <i
-                        class="fas fa-chevron-right"></i></a>
+        <div class="slider-container upcoming-slider">
+            <button class="slider-btn prev" onclick="moveSlide('upcoming', -1)">❮</button>
+            <div class="slider">
+                {{#each upcomingMovies}}
+                    <div class="movie-slide col-6 col-sm-6 col-xl-3" id="mv-img">
+                        <div class="brief-des">
+                            <a href="/movies/movie-details/{{this.id}}">
+                                <img src="{{this.image_url}}" alt="{{this.title}}" class="img-fluid">
+                            </a>
+                            <div class="rating">
+                                {{#if this.rating}}
+                                    <i class="fa-solid fa-star"></i>
+                                    <p>{{this.rating}}</p>
+                                {{/if}}
+                            </div>
+                            <div class="age-limit">{{this.age}}</div>
+                        </div>
+                        <p class="mv-name">{{this.title}}</p>
+                    </div>
+                {{/each}}
             </div>
-            <div>
-                <img src="images/up2.png" alt/>
-                <h3>Unlock the power of learning</h3>
-                <a href="#">Book Now <i
-                        class="fas fa-chevron-right"></i></a>
-            </div>
-            <div>
-                <img src="images/up3.png" alt/>
-                <h3>Windows 10 Enterprise</h3>
-                <a href="#">Book Now <i
-                        class="fas fa-chevron-right"></i></a>
-            </div>
-            <div>
-                <img src="images/up4.png" alt/>
-                <h3>Explore Kubernetes</h3>
-                <a href="#">Book Now <i
-                        class="fas fa-chevron-right"></i></a>
-            </div>
-        </section>
+            <button class="slider-btn next" onclick="moveSlide('upcoming', 1)">❯</button>
+        </div>
 
     </div>
 </section>
