@@ -57,6 +57,9 @@ app.get("/register", (req, res) => {
 app.get("/login", (req, res) => {
   res.render("login", { layout: "main" });
 });
+app.get("/admin", (req, res) => {
+  res.render("admin", { layout: "main" });
+});
 app.use((req, res) => {
   res.status(404).render("404", { layout: "main" });
 });
