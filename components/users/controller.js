@@ -7,7 +7,7 @@ const fetchCategorizedMovies = async () => {
 };
 
 // Render the showing movie list page
-exports.renderMovieList = async (req, res) => {
+const renderMovieList = async (req, res) => {
     try {
         const {showingMovieList, upcomingMovieList} = await fetchCategorizedMovies();
 
@@ -23,4 +23,5 @@ exports.renderMovieList = async (req, res) => {
     }
 };
 
+module.exports = {fetchCategorizedMovies, renderMovieList};
 

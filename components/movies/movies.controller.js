@@ -1,12 +1,6 @@
-const Movie = require("./movies.model");
-const convertedMovieList = require('./service.js');
-
-// Helper function to fetch movies and categorize them
-const fetchCategorizedMovies = async () => {
-    const movies = await Movie.find().lean();  // Fetch movies from the database once
-    return convertedMovieList.getCategorizedMovieLists(movies);  // Categorize movies
-};
-
+const Movie = require("../movies/movies.model");
+const {fetchCategorizedMovies} = require('../users/controller');
+const {getMovieById} = require('../movies/service');
 // Render the movie list page
 exports.renderMovieList = async (req, res) => {
     try {
@@ -65,39 +59,12 @@ exports.renderUpcomingMovieList = async (req, res) => {
 exports.renderMoviePage = async (req, res) => {
     try {
         const movieId = req.params.id;
-        const movie = await Movie.findOne({"props.pageProps.res.movieData.id": movieId}).lean();
+        const movie = await getMovieById(movieId);
 
         if (!movie) {
             return res.status(404).render('404', {layout: 'main', message: 'Movie not found'});
         }
-
-        const formatDate = (dateString) => {
-            const date = new Date(dateString);
-            const day = String(date.getDate()).padStart(2, '0');
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const year = date.getFullYear();
-            return `${day}/${month}/${year}`;
-        };
-
-        const movieData = movie.props.pageProps.res.movieData;
-        const movieDetails = {
-            title: movieData.name_vn,
-            director: movieData.director.split(','),
-            actors: movieData.actor.split(','),
-            country: movieData.country_name_vn,
-            genre: movieData.type_name_vn.split(','),
-            brief: movieData.brief_vn,
-            image: movieData.image,
-            trailer: movieData.trailer,
-            start_date: formatDate(movieData.release_date),
-            end_date: formatDate(movieData.end_date),
-            rating: movieData.ratings,
-            time: movieData.time,
-            limitage: movieData.limitage_vn,
-            language: movieData.language_vn,
-        };
-
-        res.render('movie-details', {layout: 'main', ...movieDetails});
+        res.render('movie-details', {layout: 'main', ...movie});
     } catch (error) {
         console.error('Error fetching movie:', error);
         res.status(500).send('Internal server error');

@@ -21,8 +21,9 @@ function moveSlide(sliderName, direction) {
         slideIndices[sliderName] = 0; // Loop back to the first slide
     }
 
-    // Move the slider
-    slider.style.transform = `translateX(-${slideWidth * slideIndices[sliderName]}px)`;
+    // Move the slider slowly to the new position
+    slider.style.transition = 'transform 0.7s ease-in-out';
+    slider.style.transform = `translateX(-${slideIndices[sliderName] * slideWidth}px)`;
 }
 
 // Optional: Auto-resize slider on window resize

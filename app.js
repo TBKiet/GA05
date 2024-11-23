@@ -19,19 +19,19 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 
 // console.log(process.env.MONGODB_URI);
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 
 // set router used to router login and register
 app.use("/", userRouter);
 
 // Set up Handlebars view engine
 app.engine(
-  "hbs",
-  engine({
-    extname: ".hbs",
-    layoutsDir: path.join(__dirname, "views", "layouts"),
-    partialsDir: path.join(__dirname, "views", "partials"),
-  })
+    "hbs",
+    engine({
+        extname: ".hbs",
+        layoutsDir: path.join(__dirname, "views", "layouts"),
+        partialsDir: path.join(__dirname, "views", "partials"),
+    })
 );
 app.set("view engine", "hbs");
 
@@ -57,17 +57,17 @@ app.use("/movies", movie);
 // });
 
 app.get("/about", (req, res) => {
-  res.render("about", { layout: "main" });
+    res.render("about", {layout: "main"});
 });
 
 app.get("/contact", (req, res) => {
-  res.render("contact", { layout: "main" });
+    res.render("contact", {layout: "main"});
 });
 app.get("/register", (req, res) => {
-  res.render("register", { layout: "main" });
+    res.render("register", {layout: "main"});
 });
 app.get("/login", (req, res) => {
-  res.render("login", { layout: "main" });
+    res.render("login", {layout: "main"});
 });
 
 // app.use((req, res) => {
@@ -75,14 +75,6 @@ app.get("/login", (req, res) => {
 // });
 
 // Start the server
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => {
-    console.log("Connected to the database");
-    app.listen(PORT, () => {
-      console.log(`Server is running on http://localhost:${PORT}`);
-    });
-  })
-  .catch(() => {
-    console.log("Error connecting to the database");
-  });
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
