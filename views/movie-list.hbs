@@ -50,7 +50,8 @@
 
         <div class="row gx-3 gx-sm-4 gy-3 gy-sm-4" id="movie-list">
             {{#each movies}}
-                <div class="col-6 col-sm-6 col-xl-3 movie-item" data-genre="{{this.genre}}" data-age="{{this.age}}" data-rating="{{this.rating}}" data-country="{{this.country}}">
+                <div class="col-6 col-sm-6 col-xl-3 movie-item" data-genre="{{this.genre}}" data-age="{{this.age}}"
+                     data-rating="{{this.rating}}" data-country="{{this.country}}">
                     <div class="brief-des">
                         <a href="/movies/movie-details/{{this.id}}">
                             <img src="{{this.image_url}}" alt="{{this.title}}" class="img-fluid">
@@ -70,25 +71,4 @@
     </div>
 </section>
 
-<script>
-    document.getElementById('filter-button').addEventListener('click', function() {
-        const genre = document.getElementById('genre-filter')?.value;
-        const age = document.getElementById('age-filter').value;
-        const rating = document.getElementById('rating-filter').value;
-        const country = document.getElementById('country-filter').value;
-
-        document.querySelectorAll('.movie-item').forEach(function(item) {
-            const itemGenres = item.dataset.genre.split(', ');
-            const matchesGenre = !genre || genre === 'none' || itemGenres.includes(genre);
-            const matchesAge = age === 'none' || item.dataset.age === age;
-            const matchesRating = rating === 'none' || item.dataset.rating === rating;
-            const matchesCountry = country === 'none' || item.dataset.country === country;
-
-            if (matchesGenre && matchesAge && matchesRating && matchesCountry) {
-                item.style.display = 'block';
-            } else {
-                item.style.display = 'none';
-            }
-        });
-    });
-</script>
+<script src="/js/filter.js"></script>

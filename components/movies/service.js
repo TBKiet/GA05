@@ -33,7 +33,7 @@ function getCategorizedMovieLists(movies) {
     });
 
     return categorizedMovies;
-};
+}
 
 async function getMovieById(movieId) {
     const movie = await Movie.findOne({"props.pageProps.res.movieData.id": movieId}).lean();
@@ -67,5 +67,13 @@ async function getMovieById(movieId) {
         limitage: movieData.limitage_vn,
         language: movieData.language_vn,
     };
-};
-module.exports = {getCategorizedMovieLists, getMovieById};
+}
+
+function getFilterAttribute(movieList) {
+    const genres = [...new Set(movieList.flatMap(movie => movie.genre.split(',').map(g => g.trim())))].sort();
+    const ages = [...new Set(movieList.map(movie => movie.age))].sort();
+    const ratings = [...new Set(movieList.map(movie => movie.rating))].sort();
+    const countries = [...new Set(movieList.map(movie => movie.country))].sort();
+    return {genres, ages, ratings, countries};
+}
+module.exports = {getCategorizedMovieLists, getMovieById, getFilterAttribute};

@@ -902,3 +902,7 @@ ul {
 .--m-mid {
     margin: 0 auto;
 }
+
+.copyright {
+    color: #999999;
+}
