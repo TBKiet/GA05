@@ -9,7 +9,7 @@ let upcomingMovieList = [];
 const fetchCategorizedMovies = async () => {
     const movies = await Movie.find().lean();
     // show notify query on db
-    console.log('Querying database for movies');
+    // console.log('Querying database for movies');
     return convertedMovieList.getCategorizedMovieLists(movies);
 };
 
