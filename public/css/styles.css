@@ -8,7 +8,7 @@
 
 @media (min-width: 768px) {
     .header-blue {
-        padding-bottom: 0px; /* change blue rectangle height */
+        padding-bottom: 0; /* change blue rectangle height */
     }
 }
 
@@ -184,8 +184,8 @@
 
 /*FOOTER*/
 ul {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
 }
 
 .footer-section {
@@ -205,7 +205,7 @@ ul {
 }
 
 .cta-text {
-    padding-left: 0px;
+    padding-left: 0;
     display: inline-block;
 }
 
@@ -372,7 +372,7 @@ ul {
 .form-container {
     width: 350px;
     background-color: #fff;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
     border-radius: 10px;
     box-sizing: border-box;
     padding: 20px 30px;
@@ -417,7 +417,7 @@ ul {
     background: #184e8e;
     color: white;
     cursor: pointer;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
 }
 
 .form-btn:active {
@@ -458,8 +458,8 @@ ul {
     border-radius: 20px;
     box-sizing: border-box;
     padding: 10px 15px;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
-    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0 10px 36px 0,
+    rgba(0, 0, 0, 0.06) 0 0 0 1px;
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -839,8 +839,10 @@ ul {
     text-align: center;
     text-decoration: none;
     transition: all 0.3s ease; /* Smooth transition for hover effect */
-/*search-form*/
-/* Styling adjustments for better alignment */
+    /*search-form*/
+    /* Styling adjustments for better alignment */
+}
+
 .single-cta {
     display: flex;
     align-items: flex-start; /* Align items at the top */
@@ -850,6 +852,8 @@ ul {
     background-color: transparent;
     color: #333; /* Text color */
     border: 2px solid #333;
+}
+
 .icon-fixed-width {
     width: 40px; /* Fixed width to prevent shifting */
     height: 40px; /* Make icon height consistent */
@@ -868,22 +872,29 @@ ul {
     border-color: #555; /* Slightly darker border */
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
     transform: translateY(-2px); /* Slight "lift" on hover */
-    text-decoration: none;/* Remove underline animation */
+    text-decoration: none; /* Remove underline animation */
+}
+
 .cta-text h4 {
     margin: 0; /* Remove default margin for more compact look */
 }
+
 .cta-text span {
     display: block;
 }
 
 /* Optional additional styles for button size */
+
 .--wf {
     width: 100%;
 }
 
 .--mw {
     max-width: 200px;
+}
+
 /*LOGO*/
+
 .instagram {
     background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4);
 }
