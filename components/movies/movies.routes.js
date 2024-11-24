@@ -7,4 +7,5 @@ router.get("/", movieController.renderMovieList);
 router.get("/showing", movieController.renderShowingMovieList);
 router.get("/upcoming", movieController.renderUpcomingMovieList);
 router.get("/movie-details/:id", movieController.renderMoviePage);
+
 module.exports = router;

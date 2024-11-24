@@ -43,6 +43,8 @@ app.set("view engine", "hbs");
 
 app.use("/", home);
 app.use("/movies", movie);
+
+
 // app.get("/index", (req, res) => {
 //   res.render("home", { layout: "main" });
 // });
