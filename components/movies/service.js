@@ -3,7 +3,6 @@ const Movie = require("./movies.model");
 function getCategorizedMovieLists(movies) {
     const today = new Date();
 
-    // Initialize categorized movie lists
     const categorizedMovies = {
         movieList: [],
         showingMovieList: [],
@@ -14,19 +13,18 @@ function getCategorizedMovieLists(movies) {
         const movieData = movie.props.pageProps.res.movieData;
         const releaseDate = new Date(movieData.release_date);
 
-        // Convert movie data to desired format
         const movieObj = {
             id: movieData.id,
-            title: movieData.name_vn, // Or movieData.name_en based on language
+            title: movieData.name_vn,
             image_url: movieData.image,
             rating: movieData.ratings,
-            age: movieData.limitage_vn
+            age: movieData.limitage_vn,
+            genre: movieData.type_name_vn, // Keep genre as a string
+            country: movieData.country_name_vn
         };
 
-        // Add to movieList
         categorizedMovies.movieList.push(movieObj);
 
-        // Check if movie is showing or upcoming and add to the corresponding list
         if (releaseDate <= today) {
             categorizedMovies.showingMovieList.push(movieObj);
         } else {
@@ -35,7 +33,7 @@ function getCategorizedMovieLists(movies) {
     });
 
     return categorizedMovies;
-}
+};
 
 async function getMovieById(movieId) {
     const movie = await Movie.findOne({"props.pageProps.res.movieData.id": movieId}).lean();
