@@ -6,7 +6,14 @@ function filterMoviesByGenre(movies, selectedGenre) {
   if (!selectedGenre) return movies;
 
   // Filter movies where the genre string includes the selected genre
-  return movies.filter(movie => movie.genre && movie.genre.toLowerCase().includes(selectedGenre.trim().toLowerCase()));
+  return movies.filter(movie => {
+    if (movie.genre && movie.genre.trim()) {
+      // Split the genre string if it's a comma-separated list
+      const movieGenres = movie.genre.split(',').map(g => g.trim());
+      return movieGenres.some(g => g.toLowerCase() === selectedGenre.trim().toLowerCase());
+    }
+    return false;
+  });
 }
 
 exports.renderMovieList = async (req, res) => {
@@ -20,7 +27,7 @@ exports.renderMovieList = async (req, res) => {
     const filteredMovies = filterMoviesByGenre(movieList, selectedGenre);
 
     // Ensure genres are unique and sorted
-    const genres = [...new Set(movieList.flatMap(movie => movie.genre.map(g => g.trim())))].sort();
+    const genres = [...new Set(movieList.flatMap(movie => movie.genre.split(',').map(g => g.trim())))].sort();
     const ages = [...new Set(movieList.map(movie => movie.age))].sort();
     const ratings = [...new Set(movieList.map(movie => movie.rating))].sort();
     const countries = [...new Set(movieList.map(movie => movie.country))].sort();
@@ -44,7 +51,7 @@ exports.renderMovieList = async (req, res) => {
 exports.renderShowingMovieList = async (req, res) => {
   try {
     const { showingMovieList } = await getMovieLists();
-    const genres = [...new Set(showingMovieList.flatMap(movie => movie.genre.map(g => g.trim())))].sort();
+    const genres = [...new Set(showingMovieList.flatMap(movie => movie.genre.split(',').map(g => g.trim())))].sort();
     const ages = [...new Set(showingMovieList.map(movie => movie.age))].sort();
     const ratings = [...new Set(showingMovieList.map(movie => movie.rating))].sort();
     const countries = [...new Set(showingMovieList.map(movie => movie.country))].sort();
@@ -68,7 +75,7 @@ exports.renderShowingMovieList = async (req, res) => {
 exports.renderUpcomingMovieList = async (req, res) => {
   try {
     const { upcomingMovieList } = await getMovieLists();
-    const genres = [...new Set(upcomingMovieList.flatMap(movie => movie.genre.map(g => g.trim())))].sort();
+    const genres = [...new Set(upcomingMovieList.flatMap(movie => movie.genre.split(',').map(g => g.trim())))].sort();
     const ages = [...new Set(upcomingMovieList.map(movie => movie.age))].sort();
     const ratings = [...new Set(upcomingMovieList.map(movie => movie.rating))].sort();
     const countries = [...new Set(upcomingMovieList.map(movie => movie.country))].sort();

@@ -19,7 +19,7 @@ function getCategorizedMovieLists(movies) {
             image_url: movieData.image,
             rating: movieData.ratings,
             age: movieData.limitage_vn,
-            genre: movieData.type_name_vn.split(','), // Split genre string into an array
+            genre: movieData.type_name_vn, // Keep genre as a string
             country: movieData.country_name_vn
         };
 
