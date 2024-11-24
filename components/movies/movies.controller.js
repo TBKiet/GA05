@@ -2,6 +2,7 @@ const { getMovieById } = require("../movies/service");
 const { getMovieLists } = require("../users/service");
 
 function filterMoviesByGenre(movies, selectedGenre) {
+  console.log("GENRE:   ", selectedGenre);
   // Ensure the selected genre is not empty
   if (!selectedGenre) return movies;
 
