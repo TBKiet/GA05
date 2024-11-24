@@ -1,17 +1,10 @@
-const Movie = require("../movies/movies.model");
-const convertedMovieList = require('../movies/service.js');
-// Helper function to fetch movies and categorize them
-const fetchCategorizedMovies = async () => {
-    const movies = await Movie.find().lean();  // Fetch movies from the database once
-    return convertedMovieList.getCategorizedMovieLists(movies);  // Categorize movies
-};
+// controller.js
+const { getMovieLists } = require('./service');
 
-// Render the showing movie list page
 const renderMovieList = async (req, res) => {
     try {
-        const {showingMovieList, upcomingMovieList} = await fetchCategorizedMovies();
+        const { showingMovieList, upcomingMovieList } = await getMovieLists();
 
-        // Render the 'movie-list' view and pass showing movies
         res.render("home", {
             layout: "main",
             showingMovies: showingMovieList,
@@ -23,5 +16,4 @@ const renderMovieList = async (req, res) => {
     }
 };
 
-module.exports = {fetchCategorizedMovies, renderMovieList};
-
+module.exports = { renderMovieList };

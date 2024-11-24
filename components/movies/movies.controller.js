@@ -1,12 +1,9 @@
-const Movie = require("../movies/movies.model");
-const {fetchCategorizedMovies} = require('../users/controller');
 const {getMovieById} = require('../movies/service');
+const {getMovieLists} = require('../users/service');
 // Render the movie list page
 exports.renderMovieList = async (req, res) => {
     try {
-        const {movieList} = await fetchCategorizedMovies();
-
-        // Render the 'movie-list' view and pass categorized lists
+        const {movieList} = await getMovieLists();
         res.render("movie-list", {
             layout: "main",
             movies: movieList,
@@ -22,9 +19,7 @@ exports.renderMovieList = async (req, res) => {
 // Render the showing movie list page
 exports.renderShowingMovieList = async (req, res) => {
     try {
-        const {showingMovieList} = await fetchCategorizedMovies();
-
-        // Render the 'movie-list' view and pass showing movies
+        const {showingMovieList} = await getMovieLists();
         res.render("movie-list", {
             layout: "main",
             movies: showingMovieList,
@@ -40,9 +35,7 @@ exports.renderShowingMovieList = async (req, res) => {
 // Render the upcoming movie list page
 exports.renderUpcomingMovieList = async (req, res) => {
     try {
-        const {upcomingMovieList} = await fetchCategorizedMovies();
-
-        // Render the 'movie-list' view and pass upcoming movies
+        const {upcomingMovieList} = await getMovieLists();
         res.render("movie-list", {
             layout: "main",
             movies: upcomingMovieList,

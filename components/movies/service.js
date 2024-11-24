@@ -70,4 +70,4 @@ async function getMovieById(movieId) {
         language: movieData.language_vn,
     };
 };
-module.exports = { getCategorizedMovieLists, getMovieById };
+module.exports = {getCategorizedMovieLists, getMovieById};
