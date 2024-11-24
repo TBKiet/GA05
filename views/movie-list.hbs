@@ -1,0 +1,67 @@
+<section>
+    <div class="container-fluid">
+        <!-- Inserted Filtering Search Bar -->
+        <div class="filter-bar row my-3">
+
+            <div class="col-md-3 d-flex align-items-center">
+                <ul class="nav-film">
+                    <li class="text-film"><a href="/movies">PHIM</a></li>
+                    <li><a class="{{showingMovie_type}}" href="/movies/showing">Đang chiếu</a></li>
+                    <li><a class="{{upcomingMovie_type}}" href="/movies/upcoming">Sắp chiếu</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2">
+                <select class="form-control">
+                    <option selected disabled>1. Chọn Rạp</option>
+                    <option>Rạp 1</option>
+                    <option>Rạp 2</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select class="form-control">
+                    <option selected disabled>2. Chọn Phim</option>
+                    <option>Phim 1</option>
+                    <option>Phim 2</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select class="form-control">
+                    <option selected disabled>3. Chọn Ngày</option>
+                    <option>Ngày 1</option>
+                    <option>Ngày 2</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select class="form-control">
+                    <option selected disabled>4. Chọn Suất</option>
+                    <option>Suất 1</option>
+                    <option>Suất 2</option>
+                </select>
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-primary w-100">TÌM</button>
+            </div>
+        </div>
+        <!-- End of Filtering Search Bar -->
+
+        <div class="row gx-3 gx-sm-4 gy-3 gy-sm-4">
+            {{#each movies}}
+                <div class="col-6 col-sm-6 col-xl-3" id="mv-img">
+                    <div class="brief-des">
+                        <a href="/movies/movie-details/{{this.id}}">
+                            <img src="{{this.image_url}}" alt="{{this.title}}" class="img-fluid">
+                        </a>
+                        <div class="rating">
+                            {{#if this.rating}}
+                                <i class="fa-solid fa-star"></i>
+                                <p>{{this.rating}}</p>
+                            {{/if}}
+                        </div>
+                        <div class="age-limit">{{this.age}}</div>
+                    </div>
+                    <p class="mv-name">{{this.title}}</p>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</section>
