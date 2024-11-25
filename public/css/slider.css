@@ -15,6 +15,15 @@
     padding: 10px;
 }
 
+.promo-slide {
+    min-width: 100%; /* Adjust based on the number of items per view */
+    box-sizing: border-box;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .slider-btn {
     position: absolute;
     top: 50%;
@@ -35,3 +44,4 @@
 .next {
     right: 10px;
 }
+

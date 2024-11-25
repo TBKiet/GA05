@@ -1,11 +1,14 @@
 const slideIndices = {
+    promo: 0,
     showing: 0,
     upcoming: 0
 };
 
 function moveSlide(sliderName, direction) {
     const slider = document.querySelector(`.${sliderName}-slider .slider`);
-    const slides = document.querySelectorAll(`.${sliderName}-slider .movie-slide`);
+    const slides = document.querySelectorAll(`.${sliderName}-slider .${sliderName === 'promo' ? 'promo-slide' : 'movie-slide'}`);
+
+    if (slides.length === 0) return; // Handle cases with no slides
 
     const slideWidth = slides[0].offsetWidth;
 
@@ -21,13 +24,14 @@ function moveSlide(sliderName, direction) {
         slideIndices[sliderName] = 0; // Loop back to the first slide
     }
 
-    // Move the slider slowly to the new position
+    // Move the slider to the new position
     slider.style.transition = 'transform 0.7s ease-in-out';
     slider.style.transform = `translateX(-${slideIndices[sliderName] * slideWidth}px)`;
 }
 
-// Optional: Auto-resize slider on window resize
+// Auto-resize slider on window resize for all sliders
 window.addEventListener('resize', () => {
-    moveSlide('showing', 0); // Recalculate visible slides and adjust position
-    moveSlide('upcoming', 0); // Recalculate visible slides and adjust position
+    moveSlide('promo', 0); // Recalculate visible slides and adjust position for promo slider
+    moveSlide('showing', 0); // Recalculate visible slides and adjust position for showing slider
+    moveSlide('upcoming', 0); // Recalculate visible slides and adjust position for upcoming slider
 });

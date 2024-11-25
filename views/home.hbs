@@ -1,15 +1,22 @@
 <section>
-    <!-- Main Content -->
-    <div class="menu-btn">
-        <i class="fas fa-bars fa-2x"></i>
+    <!-- promotional slider -->
+    <div class="container">
+        <div class="slider-container promo-slider">
+            <button class="slider-btn prev" onclick="moveSlide('promo',-1)">❮</button>
+            <div class="slider">
+                {{#each promotions}}
+                    <div class="promo-slide">
+                        <a href="{{this.href}}">
+                            <img src="{{this.image_url}}" alt="{{this.title}}" class="img-fluid">
+                        </a>
+                    </div>
+                {{/each}}
+            </div>
+            <button class="slider-btn next" onclick="moveSlide('promo',1)">❯</button>
+        </div>
     </div>
+
     <div class="container mb-3">
-        <!-- Showcase -->
-        <header class="showcase">
-            <a href="#" class="btn">
-                Get Ticket Now <i class="fas fa-chevron-right"></i>
-            </a>
-        </header>
         <h1 class="showing-line">Now Showing</h1>
         <!-- Home cards 1 -->
         <div class="slider-container showing-slider">
@@ -68,7 +75,5 @@
         <div class="row">
             <a class="add-btn btn--outline --wf --mw --m-mid" href="/movies/upcoming">See more</a>
         </div>
-
-
     </div>
 </section>
