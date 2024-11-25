@@ -29,6 +29,15 @@ function moveSlide(sliderName, direction) {
     slider.style.transform = `translateX(-${slideIndices[sliderName] * slideWidth}px)`;
 }
 
+function startAutoSlide(sliderName, interval) {
+    setInterval(() => {
+        moveSlide(sliderName, 1);
+    }, interval);
+}
+
+// Start automatic sliding for promo-slide every 3 seconds (3000 milliseconds)
+startAutoSlide('promo', 3000);
+
 // Auto-resize slider on window resize for all sliders
 window.addEventListener('resize', () => {
     moveSlide('promo', 0); // Recalculate visible slides and adjust position for promo slider
