@@ -1,10 +1,11 @@
-require('dotenv').config();
+require("dotenv").config();
 const express = require("express");
-const {engine} = require("express-handlebars"); // Import `engine` instead of `exphbs`
+const { engine } = require("express-handlebars"); // Import `engine` instead of `exphbs`
 const path = require("path");
 const cloudinary = require("./components/cloudinary/config/cloud");
 const mongoose = require("mongoose");
-const movie = require("./components/movies/movies.routes");
+const movie = require("./libraries/movies/movies.routes");
+const search = require("./components/search/search.routes");
 const home = require("./components/users/routes");
 require("./components/auth/config/db");
 const userRouter = require("./components/auth/api/user");
@@ -19,22 +20,21 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 
 // console.log(process.env.MONGODB_URI);
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 // set router used to router login and register
 app.use("/", userRouter);
 
 // Set up Handlebars view engine
 app.engine(
-    "hbs",
-    engine({
-        extname: ".hbs",
-        layoutsDir: path.join(__dirname, "views", "layouts"),
-        partialsDir: path.join(__dirname, "views", "partials"),
-    })
+  "hbs",
+  engine({
+    extname: ".hbs",
+    layoutsDir: path.join(__dirname, "views", "layouts"),
+    partialsDir: path.join(__dirname, "views", "partials"),
+  })
 );
 app.set("view engine", "hbs");
-
 
 // Define home route
 // app.get("/", (req, res) => {
@@ -43,7 +43,7 @@ app.set("view engine", "hbs");
 
 app.use("/", home);
 app.use("/movies", movie);
-
+app.use("/search", search);
 
 // app.get("/index", (req, res) => {
 //   res.render("home", { layout: "main" });
@@ -59,17 +59,17 @@ app.use("/movies", movie);
 // });
 
 app.get("/about", (req, res) => {
-    res.render("about", {layout: "main"});
+  res.render("about", { layout: "main" });
 });
 
 app.get("/contact", (req, res) => {
-    res.render("contact", {layout: "main"});
+  res.render("contact", { layout: "main" });
 });
 app.get("/register", (req, res) => {
-    res.render("register", {layout: "main"});
+  res.render("register", { layout: "main" });
 });
 app.get("/login", (req, res) => {
-    res.render("login", {layout: "main"});
+  res.render("login", { layout: "main" });
 });
 
 // app.use((req, res) => {
@@ -78,5 +78,5 @@ app.get("/login", (req, res) => {
 
 // Start the server
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });

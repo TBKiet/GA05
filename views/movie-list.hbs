@@ -3,26 +3,26 @@
         <div class="filter-bar row my-3">
             <div class="col-md-3 d-flex align-items-center">
                 <ul class="nav-film">
-                    <li class="text-film"><a href="/movies">PHIM</a></li>
-                    <li><a class="{{showingMovie_type}}" href="/movies/showing">Đang chiếu</a></li>
-                    <li><a class="{{upcomingMovie_type}}" href="/movies/upcoming">Sắp chiếu</a></li>
+                    <li><a class="{{movie_type}}" href="/movies">PHIM</a></li>
+                    <li><a class="{{showingMovie_type}}" href="/movies/showing">ĐANG CHIẾU</a></li>
+                    <li><a class="{{upcomingMovie_type}}" href="/movies/upcoming">SẮP CHIẾU</a></li>
                 </ul>
             </div>
             {{#if genres.length}}
-                <div class="col-md-2">
-                    <select id="genre-filter" class="form-control">
-                        <option value="none" selected>1. Chọn Thể Loại</option>
-                        {{#each genres}}
-                            <option value="{{this}}">{{this}}</option>
-                        {{/each}}
-                    </select>
-                </div>
+            <div class="col-md-2">
+                <select id="genre-filter" class="form-control">
+                    <option value="none" selected>1. Chọn Thể Loại</option>
+                    {{#each genres}}
+                    <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                </select>
+            </div>
             {{/if}}
             <div class="col-md-2">
                 <select id="age-filter" class="form-control">
                     <option value="none" selected>2. Chọn Độ Tuổi</option>
                     {{#each ages}}
-                        <option value="{{this}}">{{this}}</option>
+                    <option value="{{this}}">{{this}}</option>
                     {{/each}}
                 </select>
             </div>
@@ -31,7 +31,7 @@
                 <select id="country-filter" class="form-control">
                     <option value="none" selected>3. Chọn Quốc Gia</option>
                     {{#each countries}}
-                        <option value="{{this}}">{{this}}</option>
+                    <option value="{{this}}">{{this}}</option>
                     {{/each}}
                 </select>
             </div>
@@ -39,7 +39,7 @@
                 <select id="rating-filter" class="form-control">
                     <option value="none" selected>4. Chọn Đánh Giá</option>
                     {{#each ratings}}
-                        <option value="{{this}}">{{this}}</option>
+                    <option value="{{this}}">{{this}}</option>
                     {{/each}}
                 </select>
             </div>
@@ -50,25 +50,84 @@
 
         <div class="row gx-3 gx-sm-4 gy-3 gy-sm-4" id="movie-list">
             {{#each movies}}
-                <div class="col-6 col-sm-6 col-xl-3 movie-item" data-genre="{{this.genre}}" data-age="{{this.age}}"
-                     data-rating="{{this.rating}}" data-country="{{this.country}}">
-                    <div class="brief-des">
-                        <a href="/movies/movie-details/{{this.id}}">
-                            <img src="{{this.image_url}}" alt="{{this.title}}" class="img-fluid">
-                        </a>
-                        <div class="rating">
-                            {{#if this.rating}}
-                                <i class="fa-solid fa-star"></i>
-                                <p>{{this.rating}}</p>
-                            {{/if}}
-                        </div>
-                        <div class="age-limit">{{this.age}}</div>
+            <div class="col-6 col-sm-6 col-xl-3 movie-item" data-genre="{{this.genre}}" data-age="{{this.age}}"
+                data-rating="{{this.rating}}" data-country="{{this.country}}">
+                <div class="brief-des">
+                    <a href="/movies/{{this.id}}">
+                        <img src="{{this.image_url}}" alt="{{this.title}}" class="img-fluid">
+                    </a>
+                    <div class="rating">
+                        {{#if this.rating}}
+                        <i class="fa-solid fa-star"></i>
+                        <p>{{this.rating}}</p>
+                        {{/if}}
                     </div>
-                    <p class="mv-name">{{this.title}}</p>
+                    <div class="age-limit">{{this.age}}</div>
                 </div>
+                <p class="mv-name">{{this.title}}</p>
+            </div>
             {{/each}}
         </div>
     </div>
 </section>
 
-<script src="/js/filter.js"></script>
+<script>
+    document.getElementById('filter-button').addEventListener('click', function () {
+        // Get values from the form elements
+        const genre = document.getElementById('genre-filter')?.value;
+        const age = document.getElementById('age-filter').value;
+        const rating = document.getElementById('rating-filter').value;
+        const country = document.getElementById('country-filter').value;
+        const queryParams = new URLSearchParams();
+
+        // Append filter values to queryParams if not 'none'
+        if (genre && genre !== 'none') {
+            queryParams.append('genre', genre);
+        }
+        if (age && age !== 'none') {
+            queryParams.append('age', age);
+        }
+        if (country && country !== 'none') {
+            queryParams.append('country', country);
+        }
+        if (rating && rating !== 'none') {
+            queryParams.append('rating', rating);
+        }
+
+        // Get the current path
+        const currentPath = window.location.href;
+        console.log(currentPath);
+        let url = `/search?${queryParams}`;
+
+        // Adjust URL based on the current path (showing, upcoming, etc.)
+        if (currentPath.includes('/showing')) {
+            url = `/search/showing?${queryParams}`;
+        } else if (currentPath.includes('/upcoming')) {
+            url = `/search/upcoming?${queryParams}`;
+        } else if (currentPath.includes('/search?keyword')) {
+            // Handle case where URL already contains search parameters (e.g., search?keyword=value)
+            const currentUrl = new URL(window.location.href);
+            // Combine existing search parameters with new ones
+            const existingParams = new URLSearchParams(currentUrl.search);
+            queryParams.forEach((value, key) => {
+                existingParams.set(key, value);  // Use set to ensure they are updated
+            });
+            currentUrl.search = existingParams.toString();
+            url = currentUrl.toString(); // Get the updated URL with combined query parameters
+        }
+
+        // Use fetch to send the request (optional, for dynamic data handling)
+        fetch(url)
+            .then(response => response.json())  // Assuming the response is JSON
+            .then(data => {
+                console.log(data);  // Handle the returned data
+                // You can update the page dynamically with the new data here
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+        // Redirect to the constructed URL
+        window.location.href = url;
+    });
+</script>
