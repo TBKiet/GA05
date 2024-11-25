@@ -89,22 +89,20 @@ async function getRelatedMovies(movieData) {
     try {
         const genres = movieData.type_name_vn.split(',').map((genre) => genre.trim());
         const relatedMovies = await Movie.find({
-            $or: [
+            $and: [
                 {
-                    $or: genres.map(genre => ({
-                        "props.pageProps.res.movieData.type_name_vn": {$regex: new RegExp(`\\b${genre}\\b`, 'i')}
-                    }))
+                    "props.pageProps.res.movieData.type_name_vn": {
+                        $regex: new RegExp(genres.join("|"), "i") // Case-insensitive match for any genre in the array
+                    }
                 },
-                // Uncomment these lines if you want to match country or limit age as well
-                // { "props.pageProps.res.movieData.country_name_vn": movieData.country_name_vn }, // Match country
-                // { "props.pageProps.res.movieData.limitage_vn": movieData.limitage_vn } // Match limit age
-            ],
-            "props.pageProps.res.movieData.id": {$ne: movieData.id} // Exclude the current movie
+                {
+                    "props.pageProps.res.movieData.id": { $ne: movieData.id } // Exclude the current movie
+                }
+            ]
         }).lean();
 
-
         // Extract relevant details from relatedMovies
-        const extractedMovies = relatedMovies.map((movie) => {
+        return relatedMovies.map((movie) => {
             if (movie.props && movie.props.pageProps && movie.props.pageProps.res) {
                 const movieData = movie.props.pageProps.res.movieData;
                 return {
@@ -116,8 +114,7 @@ async function getRelatedMovies(movieData) {
                 };
             }
             return null; // Handle unexpected structure
-        }).filter(Boolean); // Remove null entries
-        return extractedMovies;
+        }).filter(Boolean);
     } catch (error) {
         console.error(`Error fetching related movies: ${error.message}`);
         return [];
