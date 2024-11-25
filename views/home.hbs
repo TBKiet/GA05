@@ -25,7 +25,7 @@
                 {{#each showingMovies}}
                     <div class="movie-slide col-6 col-sm-6 col-xl-3" id="mv-img">
                         <div class="brief-des">
-                            <a href="/movies/movie-details/{{this.id}}">
+                            <a href="/movies/{{this.id}}">
                                 <img src="{{this.image_url}}" alt="{{this.title}}" class="img-fluid">
                             </a>
                             <div class="rating">
@@ -55,7 +55,7 @@
                 {{#each upcomingMovies}}
                     <div class="movie-slide col-6 col-sm-6 col-xl-3" id="mv-img">
                         <div class="brief-des">
-                            <a href="/movies/movie-details/{{this.id}}">
+                            <a href="/movies/{{this.id}}">
                                 <img src="{{this.image_url}}" alt="{{this.title}}" class="img-fluid">
                             </a>
                             <div class="rating">

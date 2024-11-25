@@ -60,13 +60,15 @@
                     <div class="d-flex align-items-center">
                         <span><b>Diễn viên: </b>{{actors}}</span>
                     </div>
+                    <div class="d-flex align-items-center">
+                        <span><b>Nội Dung Phim: </b>{{brief}}</span>
+                    </div>
+
                 </div>
 
-                <!-- Movie Description -->
-                <div class="mx-2 mx-xl-3 mt-3">
-                    <div class="text-film">Nội Dung Phim</div>
-                    <p class="mt-2">{{brief}}</p>
-                </div>
+                <!--                &lt;!&ndash; Movie Description &ndash;&gt;-->
+                <!--                <div class="mx-2 mx-xl-3 mt-3">-->
+                <!--                </div>-->
 
                 <!-- Booking Button -->
                 <div class="mt-4">
@@ -77,11 +79,11 @@
     </div>
 
     <div class="container mb-3">
-        <h1 class="showing-line">Relative movie</h1>
-        <div class="slider-container upcoming-slider">
+        <h1 class="showing-line">Related Movies</h1>
+        <div class="slider-container relative-slider">
             <button class="slider-btn prev" onclick="moveSlide('relative', -4)">❮</button>
             <div class="slider">
-                {{#each relativeMovies}}
+                {{#each relatedMovies}}
                     <div class="movie-slide col-6 col-sm-6 col-xl-3" id="mv-img">
                         <div class="brief-des">
                             <a href="/movies/{{this.id}}">
@@ -103,3 +105,4 @@
         </div>
     </div>
 </section>
+

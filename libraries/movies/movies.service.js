@@ -36,7 +36,7 @@ function getCategorizedMovieLists(movies) {
     });
 
     return categorizedMovies;
-};
+}
 
 const getMovieLists = async () => {
     if (showingMovieList.length === 0 || upcomingMovieList.length === 0) {
@@ -45,12 +45,12 @@ const getMovieLists = async () => {
         movieList = categorizedMovies.movieList;
         showingMovieList = categorizedMovies.showingMovieList;
         upcomingMovieList = categorizedMovies.upcomingMovieList;
-    };
-    return { movieList, showingMovieList, upcomingMovieList };
+    }
+    return {movieList, showingMovieList, upcomingMovieList};
 };
 
 async function getMovieListsByType(movieType) {
-    const { movieList, showingMovieList, upcomingMovieList } = await getMovieLists();
+    const {movieList, showingMovieList, upcomingMovieList} = await getMovieLists();
     let movies;
     let movie_type = "inactive-film";
     let showingMovie_type = "inactive-film";
@@ -59,12 +59,10 @@ async function getMovieListsByType(movieType) {
     if (movieType === "all") {
         movies = movieList;
         movie_type = "active-film";
-    }
-    else if (movieType === "showing") {
+    } else if (movieType === "showing") {
         movies = showingMovieList;
         showingMovie_type = "active-film";
-    }
-    else if (movieType === "upcoming") {
+    } else if (movieType === "upcoming") {
         movies = upcomingMovieList;
         upcomingMovie_type = "active-film";
     }
@@ -87,10 +85,49 @@ async function getMovieListsByType(movieType) {
     };
 }
 
+async function getRelatedMovies(movieData) {
+    try {
+        const genres = movieData.type_name_vn.split(',').map((genre) => genre.trim());
+        const relatedMovies = await Movie.find({
+            $or: [
+                {
+                    $or: genres.map(genre => ({
+                        "props.pageProps.res.movieData.type_name_vn": {$regex: new RegExp(`\\b${genre}\\b`, 'i')}
+                    }))
+                },
+                // Uncomment these lines if you want to match country or limit age as well
+                // { "props.pageProps.res.movieData.country_name_vn": movieData.country_name_vn }, // Match country
+                // { "props.pageProps.res.movieData.limitage_vn": movieData.limitage_vn } // Match limit age
+            ],
+            "props.pageProps.res.movieData.id": {$ne: movieData.id} // Exclude the current movie
+        }).lean();
+
+
+        // Extract relevant details from relatedMovies
+        const extractedMovies = relatedMovies.map((movie) => {
+            if (movie.props && movie.props.pageProps && movie.props.pageProps.res) {
+                const movieData = movie.props.pageProps.res.movieData;
+                return {
+                    id: movieData.id,
+                    title: movieData.name_vn,
+                    rating: movieData.ratings,
+                    age: movieData.limitage_vn,
+                    image_url: movieData.image
+                };
+            }
+            return null; // Handle unexpected structure
+        }).filter(Boolean); // Remove null entries
+        return extractedMovies;
+    } catch (error) {
+        console.error(`Error fetching related movies: ${error.message}`);
+        return [];
+    }
+}
 
 async function getMovieById(movieId) {
-    const movie = await Movie.findOne({ "props.pageProps.res.movieData.id": movieId }).lean();
-
+    const movie = await Movie.findOne({"props.pageProps.res.movieData.id": movieId}).lean();
+    const movieData = movie.props.pageProps.res.movieData;
+    const relatedMovies = await getRelatedMovies(movieData);
     if (!movie) {
         return null;
     }
@@ -103,7 +140,6 @@ async function getMovieById(movieId) {
         return `${day}/${month}/${year}`;
     };
 
-    const movieData = movie.props.pageProps.res.movieData;
     return {
         title: movieData.name_vn,
         director: movieData.director,
@@ -119,6 +155,8 @@ async function getMovieById(movieId) {
         time: movieData.time,
         limitage: movieData.limitage_vn,
         language: movieData.language_vn,
+        relatedMovies: relatedMovies
     };
-};
-module.exports = { getMovieListsByType, getMovieById,getMovieLists };
+}
+
+module.exports = {getMovieListsByType, getMovieById, getMovieLists};
