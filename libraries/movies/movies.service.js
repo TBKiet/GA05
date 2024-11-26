@@ -87,10 +87,50 @@ async function getMovieListsByType(movieType) {
     };
 }
 
+async function getRelatedMovies(movieData) {
+    try {
+        const genres = movieData.type_name_vn.split(',').map((genre) => genre.trim());
+        const relatedMovies = await Movie.find({
+            $or: [
+                { "props.pageProps.res.movieData.type_name_vn": { $in: genres } }, // Match genre
+                { "props.pageProps.res.movieData.country_name_vn": movieData.country_name_vn }, // Match country
+                { "props.pageProps.res.movieData.limitage_vn": movieData.limitage_vn } // Match limitage
+            ],
+            "props.pageProps.res.movieData.id": { $ne: movieData.id } // Exclude the current movie
+        }).lean();
+
+        // Extract relevant details from relatedMovies
+        const extractedMovies = relatedMovies.map((movie) => {
+            if (movie.props && movie.props.pageProps && movie.props.pageProps.res) {
+                const movieData = movie.props.pageProps.res.movieData;
+                return {
+                    id: movieData.id,
+                    title: movieData.name_vn,
+                    rating: movieData.ratings,
+                    limitage: movieData.limitage_vn,
+                    image: movieData.image,
+                    genre: movieData.type_name_vn,
+                };
+            }
+            return null; // Handle unexpected structure
+        }).filter(Boolean); // Remove null entries
+        console.log("Extracted Related Movies:", extractedMovies);
+        return extractedMovies;
+    } catch (error) {
+        console.error(`Error fetching related movies: ${error.message}`);
+        return [];
+    }
+}
+
+
+
 
 async function getMovieById(movieId) {
     const movie = await Movie.findOne({ "props.pageProps.res.movieData.id": movieId }).lean();
-
+    const movieData = movie.props.pageProps.res.movieData;
+    const relatedMovies = await getRelatedMovies(movieData);
+    const relatedMoviesData = relatedMovies.props;
+    //console.log(relatedMoviesData);
     if (!movie) {
         return null;
     }
@@ -103,7 +143,6 @@ async function getMovieById(movieId) {
         return `${day}/${month}/${year}`;
     };
 
-    const movieData = movie.props.pageProps.res.movieData;
     return {
         title: movieData.name_vn,
         director: movieData.director,
@@ -119,6 +158,7 @@ async function getMovieById(movieId) {
         time: movieData.time,
         limitage: movieData.limitage_vn,
         language: movieData.language_vn,
+        relatedMovies: relatedMovies
     };
 };
-module.exports = { getMovieListsByType, getMovieById,getMovieLists };
+module.exports = { getMovieListsByType, getMovieById, getMovieLists };
