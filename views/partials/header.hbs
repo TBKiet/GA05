@@ -1,77 +1,77 @@
-<header class="header-blue">
-    <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search">
-        <div class="container">
-            <!-- Left-aligned brand logo -->
-            <a class="navbar-brand" href="/">
-                <img src="/images/logo.png" alt="CineSeats Logo" height="40">
-            </a>
-            <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navcol-1">
-                <!-- Left-aligned links -->
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/movies">Movies</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/about">About us</a></li>
-                </ul>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid ">
+        <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="CineSeats logo"></a>
 
-                <!-- Right-aligned form and buttons -->
-                <form class="form-inline ml-auto mr-3" id="search-form" method="get">
-                    <div class="form-group">
-                        <label for="search-field"><i class="fa fa-search"></i></label>
-                        <input class="form-control search-field" type="search" name="keyword" id="search-field"
-                            placeholder="Search for movie" style="border: 1px solid white;">
-                    </div>
-                </form>
-                <script>
-                    // Get the search field and form
-                    const searchField = document.getElementById('search-field');
-                    const form = document.getElementById('search-form');
-
-                    // Event listener for when the user presses "Enter" or clicks the search button
-                    searchField.addEventListener('keypress', function (event) {
-                        if (event.key === 'Enter') {
-                            handleSearch();
-                        }
-                    });
-
-                    // Event listener for submitting the form
-                    form.addEventListener('submit', function (event) {
-                        event.preventDefault();  // Prevent the default form submission
-                        handleSearch();
-                    });
-
-                    function handleSearch() {
-                        const queryParams = new URLSearchParams();
-
-                        // Only append the search keyword if it's not empty
-                        if (searchField.value.trim() !== '') {
-                            queryParams.append('keyword', searchField.value);
-                        }
-
-                        // Get the current path to determine the action URL
-                        const currentPath = window.location.href;
-                        let url = `/search?${queryParams}`;
-
-                        // Adjust URL based on current path (showing, upcoming, etc.)
-                        if (currentPath.includes('/showing')) {
-                            url = `/search/showing?${queryParams}`;
-                        } else if (currentPath.includes('/upcoming')) {
-                            url = `/search/upcoming?${queryParams}`;
-                        }
-
-                        // Update form action and redirect to the new URL
-                        form.action = url;
-                        window.location.href = url;
-                    }
-                </script>
-
-
-                <a href="/login" class="login navbar-text">Log In</a>
-                <a href="/register" class="btn btn-light action-button ml-2">Sign Up</a>
-            </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/movies">Movies</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/contact">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/about">About Us</a>
+                </li>
+            </ul>
+            <form id="search-form" method="get">
+                <div class="search-box">
+                    <label for="search-field" class="btn-search"><i class="fa-solid fa-magnifying-glass"></i></label>
+                    <input type="text" name="keyword" class="search-field" id="search-field"
+                        placeholder="Search movies">
+                </div>
+            </form>
+            <div class="hollow-item" style="margin-top: 60px;"></div>
         </div>
-    </nav>
-</header>
+        <a href="/login"><button class="nav-button" type="submit">Sign in</button></a>
+
+    </div>
+    <script>
+        // Get the search field and form
+        const searchField = document.getElementById('search-field');
+        const form = document.getElementById('search-form');
+
+        // Event listener for when the user presses "Enter" or clicks the search button
+        searchField.addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                handleSearch();
+            }
+        });
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();  // Prevent the default form submission
+            handleSearch();
+        });
+
+
+        function handleSearch() {
+            const queryParams = new URLSearchParams();
+
+            // Only append the search keyword if it's not empty
+            if (searchField.value.trim() !== '') {
+                queryParams.append('keyword', searchField.value);
+            }
+
+            // Get the current path to determine the action URL
+            const currentPath = window.location.href;
+            let url = `/search?${queryParams}`;
+
+            // Adjust URL based on current path (showing, upcoming, etc.)
+            if (currentPath.includes('/showing')) {
+                url = `/search/showing?${queryParams}`;
+            } else if (currentPath.includes('/upcoming')) {
+                url = `/search/upcoming?${queryParams}`;
+            }
+
+            // Update form action and redirect to the new URL
+            form.action = url;
+            window.location.href = url;
+        }
+    </script>
+</nav>
