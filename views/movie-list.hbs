@@ -1,179 +1,133 @@
 <section>
     <div class="container-fluid">
-        <ul class="nav-film">
-            <li class="text-film">PHIM</li>
-            <li class="active-film">Đang chiếu</li>
-            <li class="inactive-film">Sắp chiếu</li>
-        </ul>
-        <div class="row gx-3 gx-sm-4 gy-3 gy-sm-4">
-            <div class="col-6 col-sm-6 col-xl-3" id="mv-img">
-                <div class="brief-des">
-                    <a href="movie-details"><img src="images/tdqb.png"
-                                                 alt="Thiên Đường Quả Báo" class="img-fluid"></a>
-                    <div class="rating">
-                        <i class="fa-solid fa-star"></i>
-                        <p>8.9</p>
-                    </div>
-                    <div class="age-limit">T18</div>
-                </div>
-                <p class="mv-name">Thiên đường quả báo</p>
+        <div class="filter-bar row my-3">
+            <div class="col-md-3 d-flex align-items-center">
+                <ul class="nav-film">
+                    <li><a class="{{movie_type}}" href="/movies">PHIM</a></li>
+                    <li><a class="{{showingMovie_type}}" href="/movies/showing">ĐANG CHIẾU</a></li>
+                    <li><a class="{{upcomingMovie_type}}" href="/movies/upcoming">SẮP CHIẾU</a></li>
+                </ul>
             </div>
-            <div class="col-6 col-sm-6 col-xl-3" id="mv-img">
+            {{#if genres.length}}
+            <div class="col-md-2">
+                <select id="genre-filter" class="form-control">
+                    <option value="none" selected>1. Chọn Thể Loại</option>
+                    {{#each genres}}
+                    <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            {{/if}}
+            <div class="col-md-2">
+                <select id="age-filter" class="form-control">
+                    <option value="none" selected>2. Chọn Độ Tuổi</option>
+                    {{#each ages}}
+                    <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <select id="country-filter" class="form-control">
+                    <option value="none" selected>3. Chọn Quốc Gia</option>
+                    {{#each countries}}
+                    <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select id="rating-filter" class="form-control">
+                    <option value="none" selected>4. Chọn Đánh Giá</option>
+                    {{#each ratings}}
+                    <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="col-md-1">
+                <button id="filter-button" class="btn btn-primary w-100">TÌM</button>
+            </div>
+        </div>
+
+        <div class="row gx-3 gx-sm-4 gy-3 gy-sm-4" id="movie-list">
+            {{#each movies}}
+            <div class="col-6 col-sm-6 col-xl-3 movie-item" data-genre="{{this.genre}}" data-age="{{this.limitage_vn}}"
+                data-rating="{{this.ratings}}" data-country="{{this.type_name_vn}}">
                 <div class="brief-des">
-                    <a href="movie-details">
-                        <img src="images/venom.png" alt="Venom: Kèo Cuối"
-                             class="img-fluid">
+                    <a href="/movies/{{this.id}}">
+                        <img src="{{this.image}}" alt="{{this.name_vn}}" class="img-fluid">
                     </a>
                     <div class="rating">
+                        {{#if this.ratings}}
                         <i class="fa-solid fa-star"></i>
-                        <p>9.1</p>
+                        <p>{{this.ratings}}</p>
+                        {{/if}}
                     </div>
-                    <div class="age-limit">T13</div>
+                    <div class="age-limit">{{this.limitage_vn}}</div>
                 </div>
-                <p class="mv-name">Venom: Kèo Cuối</p>
+                <p class="mv-name">{{this.name_vn}}</p>
             </div>
-            <div class="col-6 col-sm-6 col-xl-3" id="mv-img">
-                <div class="brief-des">
-                    <a href="movie-details.html">
-                        <img src="images/cdhm.png" alt="Cô Dâu Hào Môn"
-                             class="img-fluid">
-                    </a>
-                    <div class="rating">
-                        <i class="fa-solid fa-star"></i>
-                        <p>7.5</p>
-                    </div>
-                    <div class="age-limit">T18</div>
-                </div>
-                <p class="mv-name">Cô Dâu Hào Môn</p>
-            </div>
-            <div class="col-6 col-sm-6 col-xl-3" id="mv-img">
-                <div class="brief-des">
-                    <a href="movie-details.html">
-                        <img src="images/nxcmct.png"
-                             alt="Ngày Xưa Có Một Chuyện Tình"
-                             class="img-fluid">
-                    </a>
-                    <div class="rating">
-                        <i class="fa-solid fa-star"></i>
-                        <p>8.6</p>
-                    </div>
-                    <div class="age-limit">T16</div>
-                </div>
-                <p class="mv-name">Ngày Xưa Có Một Chuyện Tình</p>
-            </div>
-            <div class="col-6 col-sm-6 col-xl-3" id="mv-img">
-                <div class="brief-des">
-                    <a href="movie-details.html">
-                        <img src="images/hvah.png" alt="Học Viện Anh Hùng"
-                             class="img-fluid">
-                    </a>
-                    <div class="rating">
-                        <i class="fa-solid fa-star"></i>
-                        <p>9.5</p>
-                    </div>
-                    <div class="age-limit">K</div>
-                </div>
-                <p class="mv-name">Học Viện Anh Hùng: You're Next</p>
-            </div>
-            <div class="col-6 col-sm-6 col-xl-3" id="mv-img">
-                <div class="brief-des">
-                    <a href="movie-details.html">
-                        <img src="images/gmo.png" alt="Ghép Đôi"
-                             class="img-fluid">
-                    </a>
-                    <div class="rating">
-                        <i class="fa-solid fa-star"></i>
-                        <p>8.1</p>
-                    </div>
-                    <div class="age-limit">T13</div>
-                </div>
-                <p class="mv-name">Godzilla - 1.0</p>
-            </div>
-            <div class="col-6 col-sm-6 col-xl-3" id="mv-img">
-                <div class="brief-des">
-                    <a href="movie-details.html">
-                        <img src="images/akira.png" alt="Akira"
-                             class="img-fluid">
-                    </a>
-                    <div class="rating">
-                        <i class="fa-solid fa-star"></i>
-                        <p>10</p>
-                    </div>
-                    <div class="age-limit">T16</div>
-                </div>
-                <p class="mv-name">Akira</p>
-            </div>
-            <div class="col-6 col-sm-6 col-xl-3" id="mv-img">
-                <div class="brief-des">
-                    <a href="movie-details.html">
-                        <img src="images/dkd.png" alt="Đi Karaoke Đi!"
-                             class="img-fluid">
-                    </a>
-                    <div class="rating">
-                        <i class="fa-solid fa-star"></i>
-                        <p>10</p>
-                    </div>
-                    <div class="age-limit">T13</div>
-                </div>
-                <p class="mv-name">Đi Karaoke Đi!</p>
-            </div>
-            <div class="col-6 col-sm-6 col-xl-3" id="mv-img">
-                <div class="brief-des">
-                    <a href="movie-details.html">
-                        <img src="images/wmabb.png"
-                             alt="Tình Ta Đẹp Tựa Đóa Hoa"
-                             class="img-fluid">
-                    </a>
-                    <div class="rating">
-                        <i class="fa-solid fa-star"></i>
-                        <p>8.9</p>
-                    </div>
-                    <div class="age-limit">T16</div>
-                </div>
-                <p class="mv-name">Tình Ta Đẹp Tựa Đóa Hoa</p>
-            </div>
-            <div class="col-6 col-sm-6 col-xl-3" id="mv-img">
-                <div class="brief-des">
-                    <a href="movie-details.html">
-                        <img src="images/bap.png" alt="Những Kẻ Bên Lề"
-                             class="img-fluid">
-                    </a>
-                    <div class="rating">
-                        <i class="fa-solid fa-star"></i>
-                        <p>6</p>
-                    </div>
-                    <div class="age-limit">T16</div>
-                </div>
-                <p class="mv-name">Những Kẻ Bên Lề</p>
-            </div>
-            <div class="col-6 col-sm-6 col-xl-3" id="mv-img">
-                <div class="brief-des">
-                    <a href="movie-details.html">
-                        <img src="images/edne.png" alt="Cái Ác Không Tồn Tại"
-                             class="img-fluid">
-                    </a>
-                    <div class="rating">
-                        <i class="fa-solid fa-star"></i>
-                        <p>8</p>
-                    </div>
-                    <div class="age-limit">K</div>
-                </div>
-                <p class="mv-name">Cái Ác Không Tồn Tại</p>
-            </div>
-            <div class="col-6 col-sm-6 col-xl-3" id="mv-img">
-                <div class="brief-des">
-                    <a href="movie-details.html">
-                        <img src="images/mity.png" alt="Mẹ À?!"
-                             class="img-fluid">
-                    </a>
-                    <div class="rating">
-                        <i class="fa-solid fa-star"></i>
-                        <p>7</p>
-                    </div>
-                    <div class="age-limit">T13</div>
-                </div>
-                <p class="mv-name">Mẹ À?!</p>
-            </div>
+            {{/each}}
         </div>
     </div>
 </section>
+
+<script>
+    document.getElementById('filter-button').addEventListener('click', function () {
+        // Get values from the form elements
+        const genre = document.getElementById('genre-filter')?.value;
+        const age = document.getElementById('age-filter').value;
+        const rating = document.getElementById('rating-filter').value;
+        const country = document.getElementById('country-filter').value;
+        const queryParams = new URLSearchParams();
+
+        // Append filter values to queryParams if not 'none'
+        if (genre && genre !== 'none') {
+            queryParams.append('genre', genre);
+        }
+        if (age && age !== 'none') {
+            queryParams.append('age', age);
+        }
+        if (country && country !== 'none') {
+            queryParams.append('country', country);
+        }
+        if (rating && rating !== 'none') {
+            queryParams.append('rating', rating);
+        }
+
+        // Get the current path
+        const currentPath = window.location.href;
+        console.log(currentPath);
+        let url = `/search?${queryParams}`;
+
+        // Adjust URL based on the current path (showing, upcoming, etc.)
+        if (currentPath.includes('/showing')) {
+            url = `/search/showing?${queryParams}`;
+        } else if (currentPath.includes('/upcoming')) {
+            url = `/search/upcoming?${queryParams}`;
+        } else if (currentPath.includes('/search?keyword')) {
+            // Handle case where URL already contains search parameters (e.g., search?keyword=value)
+            const currentUrl = new URL(window.location.href);
+            // Combine existing search parameters with new ones
+            const existingParams = new URLSearchParams(currentUrl.search);
+            queryParams.forEach((value, key) => {
+                existingParams.set(key, value);  // Use set to ensure they are updated
+            });
+            currentUrl.search = existingParams.toString();
+            url = currentUrl.toString(); // Get the updated URL with combined query parameters
+        }
+
+        // Use fetch to send the request (optional, for dynamic data handling)
+        fetch(url)
+            .then(response => response.json())  // Assuming the response is JSON
+            .then(data => {
+                console.log(data);  // Handle the returned data
+                // You can update the page dynamically with the new data here
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+        // Redirect to the constructed URL
+        window.location.href = url;
+    });
+</script>
