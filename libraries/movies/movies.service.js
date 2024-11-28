@@ -3,7 +3,7 @@ const Movie = require("./movies.model");
 async function getMovieListsByType(movieType) {
     const today = new Date();
     let filter = {};
-    const movieStates = { all: "active-film", showing: "inactive-film", upcoming: "inactive-film" };
+    const movieStates = { all: "inactive-film", showing: "inactive-film", upcoming: "inactive-film" };
 
     if (movieType === "showing") {
         filter = { release_date: { $lte: today }, end_date: { $gte: today } };
@@ -25,7 +25,7 @@ async function getMovieListsByType(movieType) {
             ages: extractUnique("limitage_vn"),
             ratings: extractUnique("ratings"),
             countries: extractUnique("country_name_vn"),
-            ...movieStates,
+            ...movieStates, // Ensure movieStates are included in the returned object
         };
     } catch (err) {
         console.error("Error fetching movies:", err);

@@ -3,7 +3,6 @@ const {getMovieListsByType, getMovieById} = require("./movies.service");
 const renderMovieListByType = async (req, res, movieType) => {
     try {
         const movieData = await getMovieListsByType(movieType);
-        // console.log(movieData.movies[0]);
         res.render("movie-list", {
             layout: "main", ...movieData
         });
