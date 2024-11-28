@@ -1,0 +1,108 @@
+<section>
+    <div class="container-fluid p-3">
+        <!-- Movie Trailer -->
+        {{#if trailer}}
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{trailer}}"
+                        allowfullscreen></iframe>
+            </div>
+        {{/if}}
+        <div class="row">
+            <!-- Movie Image -->
+            <div class="col-12 col-sm-5 col-xl-5 col-xxl-3 details-des p-0">
+                <img src="{{image}}" alt="{{name_vn}}" class="img-fluid">
+            </div>
+
+            <!-- Movie Details -->
+            <div class="col-12 col-sm-7 col-xl-7 px-4 px-sm-1 mv-details">
+                <h1>{{name_vn}} <span class="age-limit-a">{{limitage_vn}}</span></h1>
+                <div class="mv-time">
+                    <p class="me-3">
+                        <i class="fa-solid fa-clock" style="color: #74C0FC;"></i> {{time}} phút
+                    </p>
+                    <p>
+                        <i class="fa-solid fa-calendar" style="color: #74C0FC;"></i> {{release_date}}
+                    </p>
+                </div>
+                <div class="mv-rating">
+                    {{#if ratings}}
+                        <p>
+                            <i class="fa-solid fa-star" style="color: #FFD43B;"></i> {{ratings}}
+                        </p>
+                    {{else}}
+                    {{/if}}
+                </div>
+
+                <!-- Display country if available -->
+                <div class="mv-infos">
+                    {{#if country_name_vn}}
+                        <p><strong>Quốc gia:</strong> {{ country_name_vn}}</p>
+                    {{else}}
+                        <p><strong>Quốc gia:</strong> Đang cập nhật</p>
+                    {{/if}}
+
+                    <!-- Display production if available -->
+                    {{#if production}}
+                        <p><strong>Nhà sản xuất:</strong> {{production}}</p>
+                    {{else}}
+                        <p><strong>Nhà sản xuất:</strong> Đang cập nhật</p>
+                    {{/if}}
+                </div>
+
+                <!-- Genre, Director, and Actors Information -->
+                <div class="info-section">
+                    <div class="d-flex align-items-center">
+                        <span><b>Thể loại: </b>{{type_name_vn}} </span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span><b>Đạo diễn: </b>{{director}}</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span><b>Diễn viên: </b>{{actor}}</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span><b>Nội Dung Phim: </b>{{brief_vn}}</span>
+                    </div>
+
+                </div>
+
+                <!--                &lt;!&ndash; Movie Description &ndash;&gt;-->
+                <!--                <div class="mx-2 mx-xl-3 mt-3">-->
+                <!--                </div>-->
+
+                <!-- Booking Button -->
+                <div class="mt-4">
+                    <a href="#" class="book-ticket">Đặt vé</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mb-3">
+        <h1 class="showing-line">Related Movies</h1>
+        <div class="slider-container relative-slider">
+            <button class="slider-btn prev" onclick="moveSlide('relative', -4)">❮</button>
+            <div class="slider">
+                {{#each relatedMovies}}
+                    <div class="movie-slide col-6 col-sm-6 col-xl-3" id="mv-img">
+                        <div class="brief-des">
+                            <a href="/movies/{{this.id}}">
+                                <img src="{{this.image}}" alt="{{this.name_vn}}" class="img-fluid">
+                            </a>
+                            <div class="rating">
+                                {{#if this.ratings}}
+                                    <i class="fa-solid fa-star"></i>
+                                    <p>{{this.ratings}}</p>
+                                {{/if}}
+                            </div>
+                            <div class="age-limit">{{this.limitage_vn}}</div>
+                        </div>
+                        <p class="mv-name">{{this.name_vn}}</p>
+                    </div>
+                {{/each}}
+            </div>
+            <button class="slider-btn next" onclick="moveSlide('relative', 4)">❯</button>
+        </div>
+    </div>
+</section>
+
