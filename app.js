@@ -86,6 +86,10 @@ app.get("/logout", (req, res) => {
     });
 });
 
+app.get("/error", (req, res) => {
+    res.render("error", {layout: "main"});
+});
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
