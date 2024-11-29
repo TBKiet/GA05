@@ -26,17 +26,17 @@
                     <div class="movie-slide col-6 col-sm-6 col-xl-3" id="mv-img">
                         <div class="brief-des">
                             <a href="/movies/{{this.id}}">
-                                <img src="{{this.image_url}}" alt="{{this.title}}" class="img-fluid">
+                                <img src="{{this.image}}" alt="{{this.name_vn}}" class="img-fluid">
                             </a>
                             <div class="rating">
-                                {{#if this.rating}}
+                                {{#if this.ratings}}
                                     <i class="fa-solid fa-star"></i>
-                                    <p>{{this.rating}}</p>
+                                    <p>{{this.ratings}}</p>
                                 {{/if}}
                             </div>
-                            <div class="age-limit">{{this.age}}</div>
+                            <div class="age-limit">{{this.limitage_vn}}</div>
                         </div>
-                        <p class="mv-name">{{this.title}}</p>
+                        <p class="mv-name">{{this.name_vn}}</p>
                     </div>
                 {{/each}}
             </div>
@@ -56,17 +56,17 @@
                     <div class="movie-slide col-6 col-sm-6 col-xl-3" id="mv-img">
                         <div class="brief-des">
                             <a href="/movies/{{this.id}}">
-                                <img src="{{this.image_url}}" alt="{{this.title}}" class="img-fluid">
+                                <img src="{{this.image}}" alt="{{this.name_vn}}" class="img-fluid">
                             </a>
                             <div class="rating">
-                                {{#if this.rating}}
+                                {{#if this.ratings}}
                                     <i class="fa-solid fa-star"></i>
-                                    <p>{{this.rating}}</p>
+                                    <p>{{this.ratings}}</p>
                                 {{/if}}
                             </div>
-                            <div class="age-limit">{{this.age}}</div>
+                            <div class="age-limit">{{this.limitage_vn}}</div>
                         </div>
-                        <p class="mv-name">{{this.title}}</p>
+                        <p class="mv-name">{{this.name_vn}}</p>
                     </div>
                 {{/each}}
             </div>

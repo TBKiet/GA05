@@ -1,6 +1,4 @@
 const {getMovieListsByType, getMovieById} = require("./movies.service");
-//const { getMovieLists } = require("../users/service");
-
 
 const renderMovieListByType = async (req, res, movieType) => {
     try {
@@ -25,7 +23,7 @@ exports.renderUpcomingMovieList = async (req, res) =>
 exports.renderMoviePage = async (req, res) => {
     try {
         const movieId = req.params.id;
-        const movie = await getMovieById(movieId);
+        const movie = (await getMovieById(movieId));
         if (!movie) {
             return res
                 .status(404)

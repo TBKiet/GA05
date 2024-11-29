@@ -9,14 +9,14 @@
         <div class="mv-detail" style="background: url('https://s3picturehouses.s3.eu-central-1.amazonaws.com/header/ph_15977496885f3bb9b84457c.jpg');
   background-size: cover;">
             <div class="popular-movie-slider">
-                <img src="{{image}}" alt="{{title}}" class="poster">
+                <img src="{{image}}" alt="{{name_vn}}" class="poster">
 
                 <div class="popular-movie-slider-content">
-                    <p class="release">Ngày khởi chiếu: {{start_date}}</p>
-                    <h2 class="movie-name">{{title}}</h2>
+                    <p class="release">Ngày khởi chiếu: {{release_date}}</p>
+                    <h2 class="movie-name">{{name_vn}}</h2>
                     <ul class="category">
                         <li>
-                            <p>Thể loại: {{genre}}</p>
+                            <p>Thể loại: {{type_name_vn}}</p>
                         </li>
                         <li>
                             <p>Nhà sản xuất: {{production}}</p>
@@ -25,21 +25,21 @@
                             <p>Đạo diễn: {{director}}</p>
                         </li>
                         <li>
-                            <p>Diễn viên: {{actors}}</p>
+                            <p>Diễn viên: {{actor}}</p>
                         </li>
                     </ul>
 
-                    <p class="desc">{{brief}}</p>
+                    <p class="desc">{{brief_vn}}</p>
 
                     <div class="movie-info">
                         <p><i class="fa-solid fa-clock"></i> {{time}} phút</p>
-                        {{#if country}}
-                        <p><i class="fa-solid fa-globe"></i> {{country}}</p>
+                        {{#if country_name_vn}}
+                        <p><i class="fa-solid fa-globe"></i> {{country_name_vn}}</p>
                         {{else}}
                         <p><i class="fa-solid fa-globe"></i> Đang cập nhật</p>
                         {{/if}}
-                        {{#if rating}}
-                        <p><i class="fa-solid fa-star" style="color: #FFD43B;"></i> {{rating}}</p>
+                        {{#if ratings}}
+                        <p><i class="fa-solid fa-star" style="color: #FFD43B;"></i> {{ratings}}</p>
                         {{else}}
                         <p><i class="fa-solid fa-star" style="color: #FFD43B;"></i> 0.0</p>
                         {{/if}}
@@ -64,17 +64,17 @@
                     <div class="movie-slide col-6 col-sm-6 col-xl-3" id="mv-img">
                         <div class="brief-des">
                             <a href="/movies/{{this.id}}">
-                                <img src="{{this.image_url}}" alt="{{this.title}}" class="img-fluid">
+                                <img src="{{this.image}}" alt="{{this.name_vn}}" class="img-fluid">
                             </a>
                             <div class="rating">
-                                {{#if this.rating}}
-                                <i class="fa-solid fa-star"></i>
-                                <p>{{this.rating}}</p>
+                                {{#if this.ratings}}
+                                    <i class="fa-solid fa-star"></i>
+                                    <p>{{this.ratings}}</p>
                                 {{/if}}
                             </div>
-                            <div class="age-limit">{{this.age}}</div>
+                            <div class="age-limit">{{this.limitage_vn}}</div>
                         </div>
-                        <p class="mv-name">{{this.title}}</p>
+                        <p class="mv-name">{{this.name_vn}}</p>
                     </div>
                     {{/each}}
                 </div>

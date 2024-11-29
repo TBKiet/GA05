@@ -3,9 +3,9 @@
         <div class="filter-bar row my-3">
             <div class="col-md-5 d-flex align-items-center">
                 <ul class="nav-film">
-                    <li><a class="{{movie_type}}" href="/movies">PHIM</a></li>
-                    <li><a class="{{showingMovie_type}}" href="/movies/showing">ĐANG CHIẾU</a></li>
-                    <li><a class="{{upcomingMovie_type}}" href="/movies/upcoming">SẮP CHIẾU</a></li>
+                    <li><a class="{{all}}" href="/movies">PHIM</a></li>
+                    <li><a class="{{showing}}" href="/movies/showing">ĐANG CHIẾU</a></li>
+                    <li><a class="{{upcoming}}" href="/movies/upcoming">SẮP CHIẾU</a></li>
                 </ul>
             </div>
             <div class="col-md-7"></div>
@@ -52,19 +52,19 @@
 
         <div class="row gx-3 gx-sm-4 gy-3 gy-sm-4" id="movie-list">
             {{#each movies}}
-            <div class="col-6 col-sm-6 col-xl-3 movie-item" data-genre="{{this.genre}}" data-age="{{this.age}}"
-                data-rating="{{this.rating}}" data-country="{{this.country}}">
+            <div class="col-6 col-sm-6 col-xl-3 movie-item" data-genre="{{this.genre}}" data-age="{{this.limitage_vn}}"
+                data-rating="{{this.ratings}}" data-country="{{this.type_name_vn}}">
                 <div class="brief-des">
                     <a href="/movies/{{this.id}}">
-                        <img src="{{this.image_url}}" alt="{{this.title}}" class="img-fluid">
+                        <img src="{{this.image}}" alt="{{this.name_vn}}" class="img-fluid">
                     </a>
                     <div class="rating">
-                        {{#if this.rating}}
+                        {{#if this.ratings}}
                         <i class="fa-solid fa-star"></i>
-                        <p>{{this.rating}}</p>
+                        <p>{{this.ratings}}</p>
                         {{/if}}
                     </div>
-                    <div class="age-limit">{{this.age}}</div>
+                     <div class="age-limit">{{this.limitage_vn}}</div>
                     <a href="/movies/{{this.id}}">
                         <div class="text-container">
                             <ul>
@@ -78,7 +78,7 @@
                         </div>
                     </a>
                 </div>
-                <p class="mv-name">{{this.title}}</p>
+                <p class="mv-name">{{this.name_vn}}</p>
             </div>
             {{/each}}
         </div>

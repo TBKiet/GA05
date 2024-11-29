@@ -1,159 +1,68 @@
 const Movie = require("./movies.model");
-let movieList = [];
-let showingMovieList = [];
-let upcomingMovieList = [];
-
-function getCategorizedMovieLists(movies) {
-    const today = new Date();
-
-    const categorizedMovies = {
-        movieList: [],
-        showingMovieList: [],
-        upcomingMovieList: []
-    };
-
-    movies.forEach(movie => {
-        const movieData = movie.props.pageProps.res.movieData;
-        const releaseDate = new Date(movieData.release_date);
-
-        const movieObj = {
-            id: movieData.id,
-            title: movieData.name_vn,
-            image_url: movieData.image,
-            rating: movieData.ratings,
-            age: movieData.limitage_vn,
-            genre: movieData.type_name_vn, // Keep genre as a string
-            country: movieData.country_name_vn
-        };
-
-        categorizedMovies.movieList.push(movieObj);
-
-        if (releaseDate <= today) {
-            categorizedMovies.showingMovieList.push(movieObj);
-        } else {
-            categorizedMovies.upcomingMovieList.push(movieObj);
-        }
-    });
-
-    return categorizedMovies;
-}
-
-const getMovieLists = async () => {
-    if (showingMovieList.length === 0 || upcomingMovieList.length === 0) {
-        const movies = await Movie.find().lean();
-        const categorizedMovies = getCategorizedMovieLists(movies);
-        movieList = categorizedMovies.movieList;
-        showingMovieList = categorizedMovies.showingMovieList;
-        upcomingMovieList = categorizedMovies.upcomingMovieList;
-    }
-    return {movieList, showingMovieList, upcomingMovieList};
-};
 
 async function getMovieListsByType(movieType) {
-    const {movieList, showingMovieList, upcomingMovieList} = await getMovieLists();
-    let movies;
-    let movie_type = "inactive-film";
-    let showingMovie_type = "inactive-film";
-    let upcomingMovie_type = "inactive-film";
+    const today = new Date();
+    let filter = {};
+    const movieStates = { all: "inactive-film", showing: "inactive-film", upcoming: "inactive-film" };
 
-    if (movieType === "all") {
-        movies = movieList;
-        movie_type = "active-film";
-    } else if (movieType === "showing") {
-        movies = showingMovieList;
-        showingMovie_type = "active-film";
+    if (movieType === "showing") {
+        filter = { release_date: { $lte: today }, end_date: { $gte: today } };
+        movieStates.showing = "active-film";
     } else if (movieType === "upcoming") {
-        movies = upcomingMovieList;
-        upcomingMovie_type = "active-film";
+        filter = { release_date: { $gt: today } };
+        movieStates.upcoming = "active-film";
+    } else {
+        movieStates.all = "active-film";
     }
 
-    // Ensure genres are unique and sorted
-    const genres = [...new Set(movieList.flatMap(movie => movie.genre.split(',').map(g => g.trim())))].sort();
-    const ages = [...new Set(movieList.map(movie => movie.age))].sort();
-    const ratings = [...new Set(movieList.map(movie => movie.rating))].sort();
-    const countries = [...new Set(movieList.map(movie => movie.country))].sort();
+    try {
+        const movies = await Movie.find(filter).lean();
+        const extractUnique = (key) => [...new Set(movies.flatMap((movie) => movie[key]))].sort();
 
-    return {
-        movies,
-        genres,
-        ages,
-        ratings,
-        countries,
-        movie_type,
-        showingMovie_type,
-        upcomingMovie_type,
-    };
+        return {
+            movies,
+            genres: extractUnique("type_name_vn"),
+            ages: extractUnique("limitage_vn"),
+            ratings: extractUnique("ratings"),
+            countries: extractUnique("country_name_vn"),
+            ...movieStates, // Ensure movieStates are included in the returned object
+        };
+    } catch (err) {
+        console.error("Error fetching movies:", err);
+        return { movies: [], genres: [], ages: [], ratings: [], countries: [], ...movieStates };
+    }
 }
 
 async function getRelatedMovies(movieData) {
     try {
-        const genres = movieData.type_name_vn.split(',').map((genre) => genre.trim());
+        const regexGenres = new RegExp(movieData.type_name_vn.join("|"), "i");
         const relatedMovies = await Movie.find({
-            $and: [
-                {
-                    "props.pageProps.res.movieData.type_name_vn": {
-                        $regex: new RegExp(genres.join("|"), "i") // Case-insensitive match for any genre in the array
-                    }
-                },
-                {
-                    "props.pageProps.res.movieData.id": { $ne: movieData.id } // Exclude the current movie
-                }
-            ]
+            type_name_vn: { $regex: regexGenres },
+            id: { $ne: movieData.id },
         }).lean();
 
-        // Extract relevant details from relatedMovies
-        return relatedMovies.map((movie) => {
-            if (movie.props && movie.props.pageProps && movie.props.pageProps.res) {
-                const movieData = movie.props.pageProps.res.movieData;
-                return {
-                    id: movieData.id,
-                    title: movieData.name_vn,
-                    rating: movieData.ratings,
-                    age: movieData.limitage_vn,
-                    image_url: movieData.image
-                };
-            }
-            return null; // Handle unexpected structure
-        }).filter(Boolean);
-    } catch (error) {
-        console.error(`Error fetching related movies: ${error.message}`);
+        return relatedMovies;
+    } catch (err) {
+        console.error("Error fetching related movies:", err);
         return [];
     }
 }
 
 async function getMovieById(movieId) {
-    const movie = await Movie.findOne({"props.pageProps.res.movieData.id": movieId}).lean();
-    const movieData = movie.props.pageProps.res.movieData;
-    const relatedMovies = await getRelatedMovies(movieData);
-    if (!movie) {
-        return null;
-    }
+    const movie = await Movie.findOne({ id: movieId }).lean();
+    if (!movie) return null;
 
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        const day = String(date.getDate()).padStart(2, '0');
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const year = date.getFullYear();
-        return `${day}/${month}/${year}`;
-    };
+    const formatDate = (date) =>
+        new Date(date).toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" });
+
+    const relatedMovies = await getRelatedMovies(movie);
 
     return {
-        title: movieData.name_vn,
-        director: movieData.director,
-        actors: movieData.actor,
-        country: movieData.country_name_vn,
-        genre: movieData.type_name_vn,
-        brief: movieData.brief_vn,
-        image: movieData.image,
-        trailer: movieData.trailer,
-        start_date: formatDate(movieData.release_date),
-        end_date: formatDate(movieData.end_date),
-        rating: movieData.ratings,
-        time: movieData.time,
-        limitage: movieData.limitage_vn,
-        language: movieData.language_vn,
-        relatedMovies: relatedMovies
+        ...movie,
+        release_date: formatDate(movie.release_date),
+        end_date: formatDate(movie.end_date),
+        relatedMovies,
     };
 }
 
-module.exports = {getMovieListsByType, getMovieById, getMovieLists};
+module.exports = { getMovieListsByType, getMovieById };

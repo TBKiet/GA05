@@ -25,7 +25,7 @@
                 <div class="search-box">
                     <label for="search-field" class="btn-search"><i class="fa-solid fa-magnifying-glass"></i></label>
                     <input type="text" name="keyword" class="search-field" id="search-field"
-                        placeholder="Search movies">
+                        placeholder="Search for movies">
                 </div>
             </form>
             <div class="hollow-item" style="margin-top: 60px;"></div>
@@ -69,9 +69,20 @@
                 url = `/search/upcoming?${queryParams}`;
             }
 
-            // Update form action and redirect to the new URL
-            form.action = url;
-            window.location.href = url;
-        }
-    </script>
-</nav>
+                        // Update form action and redirect to the new URL
+                        form.action = url;
+                        window.location.href = url;
+                    }
+                </script>
+
+                {{#if isAuthenticated}}
+                    <span class="navbar-text">Hello, {{username}}</span>
+                    <a href="/logout" class="btn btn-light action-button ml-2">Log Out</a>
+                {{else}}
+                    <a href="/login" class="navbar-text">Log In</a>
+                    <a href="/register" class="btn btn-light action-button ml-2">Sign Up</a>
+                {{/if}}
+            </div>
+        </div>
+    </nav>
+</header>
