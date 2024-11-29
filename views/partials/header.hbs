@@ -30,59 +30,55 @@
             </form>
             <div class="hollow-item" style="margin-top: 60px;"></div>
         </div>
-        <a href="/login"><button class="nav-button" type="submit">Sign in</button></a>
 
-    </div>
-    <script>
-        // Get the search field and form
-        const searchField = document.getElementById('search-field');
-        const form = document.getElementById('search-form');
 
-        // Event listener for when the user presses "Enter" or clicks the search button
-        searchField.addEventListener('keypress', function (event) {
-            if (event.key === 'Enter') {
+        <script>
+            // Get the search field and form
+            const searchField = document.getElementById('search-field');
+            const form = document.getElementById('search-form');
+
+            // Event listener for when the user presses "Enter" or clicks the search button
+            searchField.addEventListener('keypress', function (event) {
+                if (event.key === 'Enter') {
+                    handleSearch();
+                }
+            });
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();  // Prevent the default form submission
                 handleSearch();
+            });
+
+
+            function handleSearch() {
+                const queryParams = new URLSearchParams();
+
+                // Only append the search keyword if it's not empty
+                if (searchField.value.trim() !== '') {
+                    queryParams.append('keyword', searchField.value);
+                }
+
+                // Get the current path to determine the action URL
+                const currentPath = window.location.href;
+                let url = `/search?${queryParams}`;
+
+                // Adjust URL based on current path (showing, upcoming, etc.)
+                if (currentPath.includes('/showing')) {
+                    url = `/search/showing?${queryParams}`;
+                } else if (currentPath.includes('/upcoming')) {
+                    url = `/search/upcoming?${queryParams}`;
+                }
+
+                // Update form action and redirect to the new URL
+                form.action = url;
+                window.location.href = url;
             }
-        });
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();  // Prevent the default form submission
-            handleSearch();
-        });
+        </script>
+        {{#if isAuthenticated}}
+        <a href="/logout"><button class="nav-button" type="submit">Log Out</button></a>
+        {{else}}
+        <a href="/login"><button class="nav-button" type="submit">Sign In</button></a>
+        {{/if}}
+    </div>
 
-
-        function handleSearch() {
-            const queryParams = new URLSearchParams();
-
-            // Only append the search keyword if it's not empty
-            if (searchField.value.trim() !== '') {
-                queryParams.append('keyword', searchField.value);
-            }
-
-            // Get the current path to determine the action URL
-            const currentPath = window.location.href;
-            let url = `/search?${queryParams}`;
-
-            // Adjust URL based on current path (showing, upcoming, etc.)
-            if (currentPath.includes('/showing')) {
-                url = `/search/showing?${queryParams}`;
-            } else if (currentPath.includes('/upcoming')) {
-                url = `/search/upcoming?${queryParams}`;
-            }
-
-                        // Update form action and redirect to the new URL
-                        form.action = url;
-                        window.location.href = url;
-                    }
-                </script>
-
-                {{#if isAuthenticated}}
-                    <span class="navbar-text">Hello, {{username}}</span>
-                    <a href="/logout" class="btn btn-light action-button ml-2">Log Out</a>
-                {{else}}
-                    <a href="/login" class="navbar-text">Log In</a>
-                    <a href="/register" class="btn btn-light action-button ml-2">Sign Up</a>
-                {{/if}}
-            </div>
-        </div>
-    </nav>
+</nav>
 </header>
