@@ -25,28 +25,16 @@ function queryMovies(movies, query) {
 }
 
 function getFSMovieLists(movieData, query) {
-  const movieStates = { all: "inactive-film", showing: "inactive-film", upcoming: "inactive-film" };
-
-    if (movieType === "showing") {
-        filter = { release_date: { $lte: today }, end_date: { $gte: today } };
-        movieStates.showing = "active-film";
-    } else if (movieType === "upcoming") {
-        filter = { release_date: { $gt: today } };
-        movieStates.upcoming = "active-film";
-    } else {
-        movieStates.all = "active-film";
-    }
   const filteredMovies = queryMovies(movieData.movies, query);
-  console.log("filteredMovies", filteredMovies);
   return {
     movies: filteredMovies,
     genres: movieData.genres,
     ages: movieData.ages,
     ratings: movieData.ratings,
     countries: movieData.countries,
-    movie_type: movieData.movie_type,
-    showingMovie_type: movieData.showingMovie_type,
-    upcomingMovie_type: movieData.upcomingMovie_type,
+    all: movieData.all,
+    showing: movieData.showing,
+    upcoming: movieData.upcoming,
   };
 }
 module.exports = { getFSMovieLists };

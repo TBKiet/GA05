@@ -110,7 +110,6 @@
 
         // Get the current path
         const currentPath = window.location.href;
-        console.log(currentPath);
         let url = `/search?${queryParams}`;
 
         // Adjust URL based on the current path (showing, upcoming, etc.)
@@ -129,7 +128,6 @@
             currentUrl.search = existingParams.toString();
             url = currentUrl.toString(); // Get the updated URL with combined query parameters
         }
-
         // Use fetch to send the request (optional, for dynamic data handling)
         fetch(url)
             .then(response => response.json())  // Assuming the response is JSON

@@ -5,7 +5,8 @@ const { getFSMovieLists } = require("./search.service");
 const renderMovieListByType = async (req, res, movieType) => {
   try {
     const movieData = await getMovieListsByType(movieType);
-    const filteredMovies = getFSMovieLists(movieData, req.query);
+    const filteredMovies = getFSMovieLists(movieData ,req.query);
+   
     res.render("movie-list", {
       layout: "main",
       ...filteredMovies,
