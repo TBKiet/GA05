@@ -4,17 +4,17 @@ function queryMovies(movies, query) {
     // Check each query parameter and match it with movie properties
     if (
       query.keyword &&
-      !movie.title.toLowerCase().includes(query.keyword.toLowerCase())
+      !movie.name_vn.toLowerCase().includes(query.keyword.toLowerCase())
     ) {
       matches = false;
     }
-    if (query.genre && !movie.genre.includes(query.genre)) {
+    if (query.genre && !movie.type_name_vn.includes(query.genre)) {
       matches = false;
     }
-    if (query.age && movie.age !== query.age) {
+    if (query.age && movie.limitage_vn !== query.age) {
       matches = false;
     }
-    if (query.country && movie.country !== query.country) {
+    if (query.country && movie.country_name_vn !== query.country) {
       matches = false;
     }
     if (query.rating && movie.rating !== query.rating) {
@@ -25,7 +25,19 @@ function queryMovies(movies, query) {
 }
 
 function getFSMovieLists(movieData, query) {
+  const movieStates = { all: "inactive-film", showing: "inactive-film", upcoming: "inactive-film" };
+
+    if (movieType === "showing") {
+        filter = { release_date: { $lte: today }, end_date: { $gte: today } };
+        movieStates.showing = "active-film";
+    } else if (movieType === "upcoming") {
+        filter = { release_date: { $gt: today } };
+        movieStates.upcoming = "active-film";
+    } else {
+        movieStates.all = "active-film";
+    }
   const filteredMovies = queryMovies(movieData.movies, query);
+  console.log("filteredMovies", filteredMovies);
   return {
     movies: filteredMovies,
     genres: movieData.genres,
