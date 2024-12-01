@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const {Double, Int32} = require("mongodb");
 
+
 const MovieSchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   id: String,
@@ -34,7 +35,9 @@ const MovieSchema = new mongoose.Schema({
   language_vn: String,
   language_en: String,
   sortorder: String,
+  background_image_url: String,
 });
+
 const db = mongoose.connection.useDb("MovieDB");
 const Movie = db.model("movie", MovieSchema);
 

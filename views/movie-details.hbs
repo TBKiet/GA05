@@ -5,9 +5,11 @@
             <iframe src="https://www.youtube.com/embed/{{trailer}}" frameborder="0" webkitallowfullscreen
                 mozallowfullscreen allowfullscreen></iframe>
         </div>
-{{!-- Ai thay thi hay cho toi mot cai link url({{link}})! Xin cam on--}}
-        <div class="mv-detail" style="background: url('https://s3picturehouses.s3.eu-central-1.amazonaws.com/header/ph_15977496885f3bb9b84457c.jpg');
-  background-size: cover;">
+        {{#if background_image_url}}
+        <div class="mv-detail" style="background: url({{background_image_url}}); background-size: cover;">
+        {{else}}
+        <div class="mv-detail" style="background-size: cover;">
+        {{/if}}
             <div class="popular-movie-slider">
                 <img src="{{image}}" alt="{{name_vn}}" class="poster">
 
