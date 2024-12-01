@@ -94,7 +94,7 @@ body {
     cursor: pointer;
     position: absolute;
     right: 125px;
-    top: 35px;
+    top: 25px;
     color: #ffffff;
     background-color: transparent;
     pointer-events: painted;
@@ -141,8 +141,9 @@ body {
 
     .btn-search {
         position: absolute;
-        top: 280px;
+        top: 273px;
         right: 0px;
+        z-index: 10;
     }
 
     .search-field {

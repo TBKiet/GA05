@@ -23,7 +23,10 @@
             </ul>
             <form id="search-form" method="get">
                 <div class="search-box">
-                    <label for="search-field" class="btn-search"><i class="fa-solid fa-magnifying-glass"></i></label>
+                    <!-- Use button to submit the form -->
+                    <button type="submit" class="btn-search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
                     <input type="text" name="keyword" class="search-field" id="search-field"
                         placeholder="Search for movies">
                 </div>
@@ -40,37 +43,44 @@
             // Event listener for when the user presses "Enter" or clicks the search button
             searchField.addEventListener('keypress', function (event) {
                 if (event.key === 'Enter') {
+                    if(searchField.value.trim() !== '') {
+                        handleSearch();
+                    }
+                }
+            });
+
+            // Event listener for when the form is submitted (button click or Enter)
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();  // Prevent default form submission
+                if (searchField.value.trim() !== '') {
                     handleSearch();
                 }
             });
-            form.addEventListener('submit', function (event) {
-                event.preventDefault();  // Prevent the default form submission
-                handleSearch();
-            });
-
 
             function handleSearch() {
                 const queryParams = new URLSearchParams();
-
-                // Only append the search keyword if it's not empty
-                if (searchField.value.trim() !== '') {
-                    queryParams.append('keyword', searchField.value);
-                }
+                queryParams.append('keyword', searchField.value);
+                
 
                 // Get the current path to determine the action URL
                 const currentPath = window.location.href;
-                let url = `/search?${queryParams}`;
+                let url = `/search`;
 
                 // Adjust URL based on current path (showing, upcoming, etc.)
                 if (currentPath.includes('/showing')) {
-                    url = `/search/showing?${queryParams}`;
+                    url = `/search/showing`;
                 } else if (currentPath.includes('/upcoming')) {
-                    url = `/search/upcoming?${queryParams}`;
+                    url = `/search/upcoming`;
                 }
 
-                // Update form action and redirect to the new URL
+                // Append query parameters if they exist
+                if (queryParams.toString()) {
+                    url += `?${queryParams.toString()}`;
+                }
+
+                // Update form action and submit
                 form.action = url;
-                window.location.href = url;
+                form.submit();  // Submit the form to the new URL
             }
         </script>
         {{#if isAuthenticated}}
