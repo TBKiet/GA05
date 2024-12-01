@@ -13,7 +13,7 @@
             {{#if genres.length}}
             <div class="col-3 col-md-2 pe-0">
                 <select id="genre-filter" class="form-control">
-                    <option value="none" selected >Thể Loại</option>
+                    <option value="none" selected>Thể Loại</option>
                     {{#each genres}}
                     <option value="{{this}}">{{this}}</option>
                     {{/each}}
@@ -51,6 +51,7 @@
         </div>
 
         <div class="row gx-3 gx-sm-4 gy-3 gy-sm-4" id="movie-list">
+            {{#if movies}}
             {{#each movies}}
             <div class="col-6 col-sm-6 col-xl-3 movie-item" data-genre="{{this.genre}}" data-age="{{this.limitage_vn}}"
                 data-rating="{{this.ratings}}" data-country="{{this.type_name_vn}}">
@@ -64,7 +65,7 @@
                         <p>{{this.ratings}}</p>
                         {{/if}}
                     </div>
-                     <div class="age-limit">{{this.limitage_vn}}</div>
+                    <div class="age-limit">{{this.limitage_vn}}</div>
                     <a href="/movies/{{this.id}}">
                         <div class="text-container">
                             <ul>
@@ -81,6 +82,12 @@
                 <p class="mv-name">{{this.name_vn}}</p>
             </div>
             {{/each}}
+            {{else}}
+            <div class="text-box p-0 mt-1 mb-5">
+                <h1>No Movies Found</h1>
+                <h1>No Movies Found</h1>
+            </div>
+            {{/if}}
         </div>
     </div>
 </section>
