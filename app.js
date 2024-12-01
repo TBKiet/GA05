@@ -3,7 +3,6 @@ const express = require("express");
 const session = require("express-session");
 const mongoose = require("mongoose");
 const passport = require("passport");
-const handlebars = require('handlebars');
 const {engine} = require("express-handlebars"); // Import `engine` instead of `exphbs`
 const path = require("path");
 const cloudinary = require("./components/cloudinary/config/cloud");
@@ -37,12 +36,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Set up Handlebars view engine
-const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 app.engine(
     "hbs",
     engine({
         extname: ".hbs",
-        handlebars: allowInsecurePrototypeAccess(handlebars),
         layoutsDir: path.join(__dirname, "views", "layouts"),
         partialsDir: path.join(__dirname, "views", "partials"),
     })

@@ -16,7 +16,7 @@ async function getMovieListsByType(movieType) {
     }
 
     try {
-        const movies = await Movie.find(filter);
+        const movies = await Movie.find(filter).lean();
         const extractUnique = (key) => [...new Set(movies.flatMap((movie) => movie[key]))].sort();
         return {
             movies,
