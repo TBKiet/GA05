@@ -3,33 +3,42 @@ const express = require("express");
 const session = require("express-session");
 const mongoose = require("mongoose");
 const passport = require("passport");
-const {engine} = require("express-handlebars"); // Import `engine` instead of `exphbs`
+const { engine } = require("express-handlebars");
 const path = require("path");
-const cloudinary = require("./components/cloudinary/config/cloud");
-const movie = require("./libraries/movies/movies.routes");
-const search = require("./components/search/search.routes");
-const home = require("./components/users/routes");
+const MongoStore = require("connect-mongo");
+
+const movieRouter = require("./libraries/movies/movies.routes");
+const searchRouter = require("./components/search/search.routes");
+const homeRouter = require("./components/users/routes");
 const userRouter = require("./components/auth/auth.routes");
+const profileRouter = require("./components/profile/profile.routes");
+
+const movieDBConnection = require('./config/movieDBConnection');
+const userDBConnection = require('./config/userDBConnection');
+
 const app = express();
 const PORT = 3000;
-
-mongoose.connect(process.env.MONGODB_URI).then(() => {
-    console.log('Connected to MongoDB');
-}).catch((err) => {
-    console.log('Error connecting to MongoDB', err);
-});
 
 // Serve static files
 app.use(express.static(path.join(__dirname, "public")));
 
-// handle register and login form data
+// Handle register and login form data
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// console.log(process.env.MONGODB_URI);
-app.use(express.urlencoded({extended: true}));
-
-// Set up session middleware
-app.use(session({secret: 'secretKey', resave: false, saveUninitialized: false}));
+// Set up session middleware with MongoDB store
+app.use(session({
+    secret: process.env.SESSION_SECRET, // Replace with your own secret
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGO_URI_USERDB,
+        collectionName: 'sessions'
+    }),
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 // 1 day
+    }
+}));
 
 // Initialize Passport and session
 app.use(passport.initialize());
@@ -53,40 +62,25 @@ app.use((req, res, next) => {
     next();
 });
 
+// Define routes
 app.use("/", userRouter);
-app.use("/", home);
-app.use("/movies", movie);
-app.use("/search", search);
+app.use("/", homeRouter);
+app.use("/movies", movieRouter);
+app.use("/search", searchRouter);
+app.use("/profile", profileRouter);
 
 app.get("/about", (req, res) => {
-    res.render("about", {layout: "main"});
+    res.render("about", { layout: "main" });
 });
 
 app.get("/contact", (req, res) => {
-    res.render("contact", {layout: "main"});
-});
-app.get("/register", (req, res) => {
-    res.render("register", {layout: "main"});
-});
-app.get("/login", (req, res) => {
-    res.render("login", {layout: "main"});
+    res.render("contact", { layout: "main" });
 });
 
-app.get("/logout", (req, res) => {
-    req.logout((err) => {
-        if (err) {
-            return next(err);
-        }
-        req.session.destroy((err) => {
-            if (err) {
-                return next(err);
-            }
-            res.redirect("/");
-        });
-    });
-});
 
-// Start the server
+
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+module.exports = app;
