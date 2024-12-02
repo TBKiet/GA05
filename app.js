@@ -6,9 +6,9 @@ const passport = require("passport");
 const {engine} = require("express-handlebars"); // Import `engine` instead of `exphbs`
 const path = require("path");
 const cloudinary = require("./components/cloudinary/config/cloud");
-const movie = require("./libraries/movies/movies.routes");
-const search = require("./components/search/search.routes");
-const home = require("./components/users/routes");
+const movieRouter = require("./libraries/movies/movies.routes");
+const searchRouter = require("./components/search/search.routes");
+const homeRouter = require("./components/users/routes");
 const userRouter = require("./components/auth/auth.routes");
 const app = express();
 const PORT = 3000;
@@ -54,10 +54,11 @@ app.use((req, res, next) => {
 });
 
 app.use("/", userRouter);
-app.use("/", home);
-app.use("/movies", movie);
-app.use("/search", search);
-
+app.use("/", homeRouter);
+app.use("/movies", movieRouter);
+app.use("/search", searchRouter);
+app.use("/login", userRouter);
+app.use("/register", userRouter);
 app.get("/about", (req, res) => {
     res.render("about", {layout: "main"});
 });
@@ -65,12 +66,7 @@ app.get("/about", (req, res) => {
 app.get("/contact", (req, res) => {
     res.render("contact", {layout: "main"});
 });
-app.get("/register", (req, res) => {
-    res.render("register", {layout: "main"});
-});
-app.get("/login", (req, res) => {
-    res.render("login", {layout: "main"});
-});
+
 
 app.get("/logout", (req, res) => {
     req.logout((err) => {
