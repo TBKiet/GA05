@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {Double, Int32} = require("mongodb");
+const movieDBConnection = require('../../config/movieDBConnection');
 
 const MovieSchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
@@ -36,7 +36,6 @@ const MovieSchema = new mongoose.Schema({
   sortorder: String,
   background_image_url: String,
 });
-const db = mongoose.connection.useDb("MovieDB");
-const Movie = db.model("movie", MovieSchema);
+const Movie = movieDBConnection.model("movie", MovieSchema);
 
 module.exports = Movie;

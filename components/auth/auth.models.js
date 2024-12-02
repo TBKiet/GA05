@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const userDBConnection = require('../../config/userDBConnection');
 const schema = mongoose.Schema;
 
 const userSchema = new schema({
@@ -10,6 +11,5 @@ const userSchema = new schema({
         default: 'user'
     }
 });
-const db = mongoose.connection.useDb('UserDB');
-const userModel = db.model('user', userSchema);
+const userModel = userDBConnection.model('user', userSchema);
 module.exports = userModel;
