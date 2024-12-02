@@ -1,0 +1,177 @@
+<section>
+    <div class="container-fluid">
+        <div class="filter-bar row my-3">
+            <div class="col-md-3 d-flex align-items-center">
+                <ul class="nav-film">
+                    <li><a class="{{all}}" href="/movies">PHIM</a></li>
+                    <li><a class="{{showing}}" href="/movies/showing">ĐANG CHIẾU</a></li>
+                    <li><a class="{{upcoming}}" href="/movies/upcoming">SẮP CHIẾU</a></li>
+                </ul>
+            </div>
+            {{#if genres.length}}
+                <div class="col-md-2">
+                <select id="genre-filter" class="form-control">
+                    <option value="none" selected>Thể Loại</option>
+                    {{#each genres}}
+                    <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            {{/if}}
+            <div class="col-md-2">
+                <select id="age-filter" class="form-control">
+                    <option value="none" selected>Độ Tuổi</option>
+                    {{#each ages}}
+                    <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <select id="country-filter" class="form-control">
+                    <option value="none" selected>Quốc Gia</option>
+                    {{#each countries}}
+                    <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select id="rating-filter" class="form-control">
+                    <option value="none" selected>Đánh Giá</option>
+                    {{#each ratings}}
+                    <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="col-md-1">
+                <button id="filter-button" class="btn btn-primary w-100">TÌM</button>
+            </div>
+        </div>
+
+        <div class="row gx-3 gx-sm-4 gy-3 gy-sm-4" id="movie-list">
+            {{#if movies}}
+            {{#each movies}}
+            <div class="col-6 col-sm-6 col-xl-3 movie-item" data-genre="{{this.genre}}" data-age="{{this.limitage_vn}}"
+                data-rating="{{this.ratings}}" data-country="{{this.type_name_vn}}">
+                <div class="brief-des">
+                    <a href="/movies/{{this.id}}">
+                        <img src="{{this.image}}" alt="{{this.name_vn}}" class="img-fluid">
+                    </a>
+                    <div class="rating">
+                        {{#if this.ratings}}
+                        <i class="fa-solid fa-star"></i>
+                        <p>{{this.ratings}}</p>
+                        {{/if}}
+                    </div>
+                    <div class="age-limit">{{this.limitage_vn}}</div>
+                    <a href="/movies/{{this.id}}">
+                        <div class="text-container">
+                            <ul>
+                                <li>
+                                    <p>{{title}}</p>
+                                </li>
+                                <li><i class="fa-solid fa-tag"></i> {{type_name_vn}}</li>
+                                <li><i class="fa-solid fa-clock"></i> {{time}} phút</li>
+                                <li><i class="fa-solid fa-globe"></i> {{country_name_vn}}</li>
+                            </ul>
+                        </div>
+                    </a>
+                </div>
+                <p class="mv-name">{{this.name_vn}}</p>
+            </div>
+            {{/each}}
+            {{else}}
+            <div class="text-box p-0 mt-1 mb-5">
+                <h1>No Movies Found</h1>
+                <h1>No Movies Found</h1>
+            </div>
+            {{/if}}
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Load saved filter values from localStorage
+        const savedGenre = localStorage.getItem('genre-filter');
+        const savedAge = localStorage.getItem('age-filter');
+        const savedRating = localStorage.getItem('rating-filter');
+        const savedCountry = localStorage.getItem('country-filter');
+
+        if (savedGenre) {
+            document.getElementById('genre-filter').value = savedGenre;
+        }
+        if (savedAge) {
+            document.getElementById('age-filter').value = savedAge;
+        }
+        if (savedRating) {
+            document.getElementById('rating-filter').value = savedRating;
+        }
+        if (savedCountry) {
+            document.getElementById('country-filter').value = savedCountry;
+        }
+    });
+
+    document.getElementById('filter-button').addEventListener('click', function () {
+        // Get values from the form elements
+        const genre = document.getElementById('genre-filter')?.value || 'none';
+        const age = document.getElementById('age-filter').value || 'none';
+        const rating = document.getElementById('rating-filter').value || 'none';
+        const country = document.getElementById('country-filter').value || 'none';
+        const queryParams = new URLSearchParams();
+
+        // Save filter values to localStorage
+        localStorage.setItem('genre-filter', genre);
+        localStorage.setItem('age-filter', age);
+        localStorage.setItem('rating-filter', rating);
+        localStorage.setItem('country-filter', country);
+
+        // Append filter values to queryParams if not 'none'
+        if (genre !== 'none') {
+            queryParams.append('genre', genre);
+        }
+        if (age !== 'none') {
+            queryParams.append('age', age);
+        }
+        if (country !== 'none') {
+            queryParams.append('country', country);
+        }
+        if (rating !== 'none') {
+            queryParams.append('rating', rating);
+        }
+
+        // Get the current path
+        const currentPath = window.location.href;
+        let url = `/search?${queryParams}`;
+
+        // Adjust URL based on the current path (showing, upcoming, etc.)
+        if (currentPath.includes('/showing')) {
+            url = `/search/showing?${queryParams}`;
+        } else if (currentPath.includes('/upcoming')) {
+            url = `/search/upcoming?${queryParams}`;
+        } else if (currentPath.includes('/search?keyword')) {
+            // Handle case where URL already contains search parameters (e.g., search?keyword=value)
+            const currentUrl = new URL(window.location.href);
+            // Combine existing search parameters with new ones
+            const existingParams = new URLSearchParams(currentUrl.search);
+            queryParams.forEach((value, key) => {
+                existingParams.set(key, value);  // Use set to ensure they are updated
+            });
+            currentUrl.search = existingParams.toString();
+            url = currentUrl.toString(); // Get the updated URL with combined query parameters
+        }
+        // Use fetch to send the request (optional, for dynamic data handling)
+        fetch(url)
+                .then(response => response.json())  // Assuming the response is JSON
+                .then(data => {
+                    console.log(data);  // Handle the returned data
+                    // You can update the page dynamically with the new data here
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+
+        // Redirect to the constructed URL
+        window.location.href = url;
+    });
+</script>
