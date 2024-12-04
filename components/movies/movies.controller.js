@@ -1,8 +1,8 @@
-const {getMovieListsByType, getMovieById} = require("./movies.service");
-
+const {getMovieListsByType, getMovieById} = require("../../utility/movie");
+const {getPageFromReq} = require("../../utility/extractRequest");
 const renderMovieListByType = async (req, res, movieType) => {
     try {
-        const page = parseInt(req.query.page) || 1;
+        const page = getPageFromReq(req);
         const movieData = await getMovieListsByType(movieType, page);
         res.render("movie-list", {
             layout: "main", ...movieData

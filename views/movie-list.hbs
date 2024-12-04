@@ -56,7 +56,8 @@
         <div class="row gx-3 gx-sm-4 gy-3 gy-sm-4" id="movie-list">
             {{#if movies.length}}
                 {{#each movies}}
-                    <div class="col-6 col-sm-6 col-xl-3 movie-item" data-genre="{{this.genre}}" data-age="{{this.limitage_vn}}"
+                    <div class="col-6 col-sm-6 col-xl-3 movie-item" data-genre="{{this.genre}}"
+                         data-age="{{this.limitage_vn}}"
                          data-rating="{{this.ratings}}" data-country="{{this.type_name_vn}}">
                         <div class="brief-des">
                             <a href="/movies/{{this.id}}">
@@ -97,20 +98,20 @@
             <ul class="pagination justify-content-center">
                 {{#if (gt currentPage 1)}}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{subtract currentPage 1}}" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
+                        <a class="page-link" href="#" data-page="{{subtract currentPage 1}}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                 {{/if}}
                 {{#each (range 1 totalPages)}}
                     <li class="page-item {{#if (eq this ../currentPage)}}active{{/if}}">
-                        <a class="page-link" href="?page={{this}}">{{this}}</a>
+                        <a class="page-link" href="#" data-page="{{this}}">{{this}}</a>
                     </li>
                 {{/each}}
                 {{#if (lt currentPage totalPages)}}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{add currentPage 1}}" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
+                        <a class="page-link" href="#" data-page="{{add currentPage 1}}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
                 {{/if}}
@@ -120,28 +121,50 @@
 </section>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Load saved filter values from localStorage
-        const savedGenre = localStorage.getItem('genre-filter');
-        const savedAge = localStorage.getItem('age-filter');
-        const savedRating = localStorage.getItem('rating-filter');
-        const savedCountry = localStorage.getItem('country-filter');
+    document.addEventListener("DOMContentLoaded", () => {
+        const links = document.querySelectorAll(".pagination a.page-link");
 
-        if (savedGenre) {
-            document.getElementById('genre-filter').value = savedGenre;
+        links.forEach(link => {
+            link.addEventListener("click", (event) => {
+                event.preventDefault(); // Prevent default anchor behavior
+                const page = event.target.closest("a").dataset.page; // Get the page number from data attribute
+                const url = new URL(window.location.href);
+
+                // Update or append the ?page parameter
+                url.searchParams.set("page", page);
+
+                // Navigate to the updated URL
+                window.location.href = url.toString();
+            });
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get current URL query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+
+        // Pre-select values from the URL
+        const genre = urlParams.get('genre') || 'none';
+        const age = urlParams.get('age') || 'none';
+        const rating = urlParams.get('rating') || 'none';
+        const country = urlParams.get('country') || 'none';
+
+        // Set the form fields to match the URL parameters
+        if (genre !== 'none') {
+            document.getElementById('genre-filter').value = genre;
         }
-        if (savedAge) {
-            document.getElementById('age-filter').value = savedAge;
+        if (age !== 'none') {
+            document.getElementById('age-filter').value = age;
         }
-        if (savedRating) {
-            document.getElementById('rating-filter').value = savedRating;
+        if (rating !== 'none') {
+            document.getElementById('rating-filter').value = rating;
         }
-        if (savedCountry) {
-            document.getElementById('country-filter').value = savedCountry;
+        if (country !== 'none') {
+            document.getElementById('country-filter').value = country;
         }
     });
-
     document.getElementById('filter-button').addEventListener('click', function () {
+
+
         // Get values from the form elements
         const genre = document.getElementById('genre-filter')?.value || 'none';
         const age = document.getElementById('age-filter').value || 'none';
@@ -149,11 +172,6 @@
         const country = document.getElementById('country-filter').value || 'none';
         const queryParams = new URLSearchParams();
 
-        // Save filter values to localStorage
-        localStorage.setItem('genre-filter', genre);
-        localStorage.setItem('age-filter', age);
-        localStorage.setItem('rating-filter', rating);
-        localStorage.setItem('country-filter', country);
 
         // Append filter values to queryParams if not 'none'
         if (genre !== 'none') {
@@ -172,7 +190,6 @@
         // Get the current path
         const currentPath = window.location.href;
         let url = `/search?${queryParams}`;
-
         // Adjust URL based on the current path (showing, upcoming, etc.)
         if (currentPath.includes('/showing')) {
             url = `/search/showing?${queryParams}`;
@@ -189,16 +206,6 @@
             currentUrl.search = existingParams.toString();
             url = currentUrl.toString(); // Get the updated URL with combined query parameters
         }
-        // Use fetch to send the request (optional, for dynamic data handling)
-        fetch(url)
-                .then(response => response.json())  // Assuming the response is JSON
-                .then(data => {
-                    console.log(data);  // Handle the returned data
-                    // You can update the page dynamically with the new data here
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
 
         // Redirect to the constructed URL
         window.location.href = url;

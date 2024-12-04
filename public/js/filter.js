@@ -4,7 +4,7 @@ document.getElementById('filter-button').addEventListener('click', function() {
     const rating = document.getElementById('rating-filter').value;
     const country = document.getElementById('country-filter').value;
 
-    document.querySelectorAll('.movie-item').forEach(function(item) {
+    document.querySelectorAll('.movies-item').forEach(function(item) {
         const itemGenres = item.dataset.genre.split(', ');
         const matchesGenre = !genre || genre === 'none' || itemGenres.includes(genre);
         const matchesAge = age === 'none' || item.dataset.age === age;

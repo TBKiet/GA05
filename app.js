@@ -1,20 +1,18 @@
 require("dotenv").config();
+require('./config/movieDBConnection');
+require('./config/userDBConnection');
 const express = require("express");
 const session = require("express-session");
-const mongoose = require("mongoose");
 const passport = require("passport");
-const { engine } = require("express-handlebars");
+const {engine} = require("express-handlebars");
 const path = require("path");
 const MongoStore = require("connect-mongo");
-
-const movieRouter = require("./libraries/movies/movies.routes");
+const movieRouter = require("./components/movies/movies.routes");
 const searchRouter = require("./components/search/search.routes");
-const homeRouter = require("./components/users/routes");
+const homeRouter = require("./components/home/routes");
 const userRouter = require("./components/auth/auth.routes");
 const profileRouter = require("./components/profile/profile.routes");
 
-const movieDBConnection = require('./config/movieDBConnection');
-const userDBConnection = require('./config/userDBConnection');
 
 const app = express();
 const PORT = 3000;
@@ -24,7 +22,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Handle register and login form data
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 
 // Set up session middleware with MongoDB store
 app.use(session({
@@ -85,13 +83,12 @@ app.use("/search", searchRouter);
 app.use("/profile", profileRouter);
 
 app.get("/about", (req, res) => {
-    res.render("about", { layout: "main" });
+    res.render("about", {layout: "main"});
 });
 
 app.get("/contact", (req, res) => {
-    res.render("contact", { layout: "main" });
+    res.render("contact", {layout: "main"});
 });
-
 
 
 app.listen(PORT, () => {

@@ -36,7 +36,7 @@ const MovieSchema = new mongoose.Schema({
   sortorder: String,
   background_image_url: String,
 });
-const Movie = movieDBConnection.model("movie", MovieSchema);
+const Movie = movieDBConnection.model("movies", MovieSchema);
 
 //pagination
 // const paginate = require('mongoose-paginate-v2');

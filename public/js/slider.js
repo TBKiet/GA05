@@ -7,11 +7,6 @@ const slideIndices = {
 
 function moveSlide(sliderName, direction) {
     const slider = document.querySelector(`.${sliderName}-slider .slider`);
-    // const slides = document.querySelectorAll(
-    //   `.${sliderName}-slider .${
-    //     sliderName === "promo" ? "promo-slide" : "movie-slide"
-    //   }`
-    // );
     let slides;
     if (sliderName === "promo") {
         slides = document.querySelectorAll(`.${sliderName}-slider .promo-slide`);

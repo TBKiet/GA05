@@ -1,20 +1,22 @@
-const Movie = require("./movies.model");
+const Movie = require("../components/movies/movies.model");
 
-async function getMovieListsByType(movieType, page = 1, limit = 8) {
+async function getMovieListsByType(movieType, page = 1, limit = 8, query = {}) {
     const today = new Date();
-    let filter = {};
-    const movieStates = { all: "inactive-film", showing: "inactive-film", upcoming: "inactive-film" };
+    let defaultFilter = {};
+    const movieStates = {all: "inactive-film", showing: "inactive-film", upcoming: "inactive-film"};
 
     if (movieType === "showing") {
-        filter = { release_date: { $lte: today }, end_date: { $gte: today } };
+        defaultFilter = {release_date: {$lte: today}, end_date: {$gte: today}};
         movieStates.showing = "active-film";
     } else if (movieType === "upcoming") {
-        filter = { release_date: { $gt: today } };
+        defaultFilter = {release_date: {$gt: today}};
         movieStates.upcoming = "active-film";
     } else {
         movieStates.all = "active-film";
     }
 
+    // append the default filter to the query
+    const filter = {...defaultFilter, ...query};
     try {
         const movies = await Movie.find(filter)
             .skip((page - 1) * limit)
@@ -22,7 +24,6 @@ async function getMovieListsByType(movieType, page = 1, limit = 8) {
             .lean();
         const totalMovies = await Movie.countDocuments(filter);
         const totalPages = Math.ceil(totalMovies / limit);
-
         const extractUnique = (key) => [...new Set(movies.flatMap((movie) => movie[key]))].sort();
         return {
             movies,
@@ -36,19 +37,25 @@ async function getMovieListsByType(movieType, page = 1, limit = 8) {
         };
     } catch (err) {
         console.error("Error fetching movies:", err);
-        return { movies: [], genres: [], ages: [], ratings: [], countries: [], totalPages: 0, currentPage: page, ...movieStates };
+        return {
+            movies: [],
+            genres: [],
+            ages: [],
+            ratings: [],
+            countries: [],
+            totalPages: 0,
+            currentPage: page, ...movieStates
+        };
     }
 }
 
 async function getRelatedMovies(movieData) {
     try {
         const regexGenres = new RegExp(movieData.type_name_vn.join("|"), "i");
-        const relatedMovies = await Movie.find({
-            type_name_vn: { $regex: regexGenres },
-            id: { $ne: movieData.id },
+        return await Movie.find({
+            type_name_vn: {$regex: regexGenres},
+            id: {$ne: movieData.id},
         }).lean();
-
-        return relatedMovies;
     } catch (err) {
         console.error("Error fetching related movies:", err);
         return [];
@@ -56,11 +63,11 @@ async function getRelatedMovies(movieData) {
 }
 
 async function getMovieById(movieId) {
-    const movie = await Movie.findOne({ id: movieId }).lean();
+    const movie = await Movie.findOne({id: movieId}).lean();
     if (!movie) return null;
 
     const formatDate = (date) =>
-        new Date(date).toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" });
+        new Date(date).toLocaleDateString("vi-VN", {day: "2-digit", month: "2-digit", year: "numeric"});
 
     const relatedMovies = await getRelatedMovies(movie);
 
@@ -72,4 +79,4 @@ async function getMovieById(movieId) {
     };
 }
 
-module.exports = { getMovieListsByType, getMovieById };
+module.exports = {getMovieListsByType, getMovieById};

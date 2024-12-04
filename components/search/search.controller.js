@@ -1,28 +1,23 @@
-const { getFSMovieLists } = require("./search.service");
-const renderMovieListByType = async (req, res, movieType) => {
-  try {
-    queryParam = {
-      name_vn: req.query.keyword,
-      type_name_vn: req.query.genre,
-      limitage_vn: req.query.age,
-      country_name_vn: req.query.country,
+const {getMovieListsByType} = require("../../utility/movie");
+const {getQueryFromReq, getPageFromReq} = require("../../utility/extractRequest");
+
+const renderFilteredMovieListByType = async (req, res, movieType) => {
+    try {
+        const query = getQueryFromReq(req);
+        const page = getPageFromReq(req);
+        const filteredMovies = await getMovieListsByType(movieType, page, 8, query);
+        res.send(filteredMovies);
+    } catch (error) {
+        console.error("Error loading movies:", error);
+        res.status(500).send("Error loading movies.");
     }
-    const filteredMovies = await getFSMovieLists(movieType, queryParam);
-    res.render("movie-list", {
-      layout: "main",
-      ...filteredMovies,
-    });
-  } catch (error) {
-    console.error("Error loading movies:", error);
-    res.status(500).send("Error loading movies.");
-  }
 };
 exports.renderMovieList = async (req, res) => {
-  await renderMovieListByType(req, res, "all");
+    await renderFilteredMovieListByType(req, res, "all");
 };
 exports.renderShowingMovieList = async (req, res) => {
-  await renderMovieListByType(req, res, "showing");
+    await renderFilteredMovieListByType(req, res, "showing");
 };
 exports.renderUpcomingMovieList = async (req, res) => {
-  await renderMovieListByType(req, res, "upcoming");
+    await renderFilteredMovieListByType(req, res, "upcoming");
 };
