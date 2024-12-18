@@ -47,23 +47,24 @@
             
             <div class="container">
                 <div class="filter-options">
-                    <input type="search" placeholder="search..." class="filter">
+                    <input type="search" placeholder="search name..." class="filter" id = "search">
                     
                     <label for="role">Role:</label>
                     <select id="role" class ="filter">
-                        <option value="customer">Customer</option>
+                        <option value="all">All</option>
+                        <option value="user">User</option>
                         <option value="admin">Admin</option>
                         <option value="employee">Employee</option>
-                        <label for="message">Message</label>
                     </select>
 
                     <label for="sort">Sort by:</label>
                     <select id="sort" class="filter" style="width: 200px;">
-                        <option value="date">Date of registration</option>
+                        <option value="all"> All </option>
+                        <option value="role">Role</option>
                         <option value="name">Name</option>
                     </select>
 
-                    <button> Filter </button>
+                    <button id = "filter"> Filter </button>
                 </div>
                 <br>
             

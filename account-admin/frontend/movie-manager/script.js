@@ -2,6 +2,29 @@ API_USER = "http://localhost:8080/api/movies"
 
 function movie_block(name_vn, director, actor, country_name_vn, formats_name_vn, type_name_vn, 
     release_date, end_date, image, time, limitage_vn, language_vn, background_image_url, brief_vn) {
+
+    release_date = new Date(release_date)
+    release_date = release_date.toLocaleString('en-GB', { 
+        weekday: 'long', // Ngày trong tuần
+        year: 'numeric', 
+        month: 'numeric', 
+        day: 'numeric', 
+        hour: 'numeric', 
+        minute: 'numeric', 
+        second: 'numeric' 
+      });
+    
+    end_date = new Date(end_date)
+    end_date = end_date.toLocaleString('en-GB', { 
+        weekday: 'long', // Ngày trong tuần
+        year: 'numeric', 
+        month: 'numeric', 
+        day: 'numeric', 
+        hour: 'numeric', 
+        minute: 'numeric', 
+        second: 'numeric' 
+      });
+    
     res = `<div class="row">
         <div class="col-12">
             <div class="card mb-4 shadow-sm">
