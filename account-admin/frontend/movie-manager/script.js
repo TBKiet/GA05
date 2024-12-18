@@ -1,54 +1,58 @@
 API_USER = "http://localhost:8080/api/movies"
 
+function movie_block(name_vn, director, actor, country_name_vn, formats_name_vn, type_name_vn, 
+    release_date, end_date, image, time, limitage_vn, language_vn, background_image_url, brief_vn) {
+    res = `<div class="row">
+        <div class="col-12">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">${name_vn}</h5>
+                    
+                    <p class="card-text">
+                        <strong> Director:</strong> ${director} <br>
+                        <strong> Actor:</strong> ${actor} <br>
+                        <strong> Country:</strong> ${country_name_vn} <br>
+                        <strong> Formats:</strong> ${formats_name_vn} <br>
+                        <strong> Type:</strong> ${type_name_vn} <br>
+                        <strong> Release Date</strong> ${release_date} <br>
+                        <strong> End Date:</strong> ${end_date} <br>
+                        <strong> Image:</strong> ${image} <br>
+                        <strong> Time:</strong> ${time} <br>
+                        <strong> Limit Age:</strong> ${limitage_vn} <br>
+                        <strong> Language:</strong> ${language_vn} <br>
+                        <strong> Background Image:</strong> ${background_image_url} <br>
+                        <strong> Brief:</strong> ${brief_vn} <br>
+                    </p>
+
+                    <div class="d-flex">
+                        <div class="ms-auto">
+                            <button class="btn btn-primary btn-sm me-2">Edit</button>
+                            <button class="btn btn-danger btn-sm">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>                      
+        </div>
+    </div>
+    `
+    return res;
+}
+
 fetch(API_USER) 
 .then((res) => res.json())
 .then((data) => {
-    let res = `
-    <tr>
-        <th>Actions</th>
-        <th>Name</th>
-        <th>Role</th>
-        <th>Date</th>
-        <th>Phone</th>
-        <th>Email</th>
-    </tr>
-    `
-
-    data.forEach((user)=>{
-        const username = user.username
-        const email = user.email
-        const role = user.role
-        
-        let phone = null
-        if ('phone' in user) phone = user.phone
-        
-        let date = null;
-        if ("activationExpires" in user) date = user.activationExpires
-
-        date = new Date(date)
-        date = date.toLocaleString('vi-VN', {
-            year: 'numeric', 
-            month: 'numeric', 
-            day: 'numeric'
-        })
-        const isActive = user.isActive
-
-        res += `
-            <tr>
-                <td>
-                    <input type="checkbox">
-                    <button class="edit-btn">Edit</button>
-                    <button class="delete-btn">Delete</button>
-                </td>
-                <td>${username}</td>
-                <td>${role}</td>
-                <td>${date}</td>
-                <td>${phone}</td>
-                <td>${email}</td>
-            </tr>
-        `
+    
+    let res = ""
+    data.forEach((movie)=>{
+        res += movie_block(
+            movie.name_vn, movie.director, movie.actor, movie.country_name_vn, 
+            movie.formats_name_vn, movie.type_name_vn, movie.release_date, 
+            movie.end_date, movie.image, movie.time, movie.limitage_vn, 
+            movie.language_vn, movie.background_image_url, movie.brief_vn
+        )
     })
 
-    const userList = document.getElementById("user-db")
+    console.log(res)
+    const userList = document.getElementById("movies-DB")
     userList.innerHTML = res
 })
