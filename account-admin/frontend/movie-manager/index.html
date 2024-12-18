@@ -49,23 +49,25 @@
             <p> Hi. Welcome back to CineSeats Admin!</p>
             <div class="container">
                 <div class="filter-options">
-                    <input type="search" placeholder="search..." class="filter">
+                    <input type="search" placeholder="search name ..." class="filter" id = "search">
                 
-                    <label for="Country">Role:</label>
-                    <select id="role" class ="filter">
-                        <option value="customer">Customer</option>
-                        <option value="admin">Admin</option>
-                        <option value="employee">Employee</option>
-                        <label for="message">Message</label>
+                    <label for="status">Status:</label>
+                    <select id="status" class ="filter">
+                        <option value="all">All</option>
+                        <option value="currently_showing">Currently Showing</option>
+                        <option value="coming_soon">Coming Soon</option>
+                        <option value="ended">Ended</option>
                     </select>
     
                     <label for="sort">Sort by:</label>
                     <select id="sort" class="filter" style="width: 200px;">
-                        <option value="date">Date of registration</option>
+                        <option value="none">None</option>
                         <option value="name">Name</option>
+                        <option value="time">Time</option>
                     </select>
     
-                    <button> Filter </button>
+                    <button id = "filter"> Filter </button>
+                    <button id = "add-movie"> Add </button>
                 </div>
                 
                 <br>

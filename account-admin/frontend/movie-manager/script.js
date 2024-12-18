@@ -61,21 +61,77 @@ function movie_block(name_vn, director, actor, country_name_vn, formats_name_vn,
     return res;
 }
 
-fetch(API_USER) 
-.then((res) => res.json())
-.then((data) => {
-    
-    let res = ""
-    data.forEach((movie)=>{
-        res += movie_block(
-            movie.name_vn, movie.director, movie.actor, movie.country_name_vn, 
-            movie.formats_name_vn, movie.type_name_vn, movie.release_date, 
-            movie.end_date, movie.image, movie.time, movie.limitage_vn, 
-            movie.language_vn, movie.background_image_url, movie.brief_vn
-        )
-    })
+function Filter(data) {
+    filter_status = document.getElementById("status").value;
+    filter_sort = document.getElementById("sort").value; 
+    filter_seach_name = document.getElementById("search").value 
+ 
+    if (filter_seach_name != "") {
+        data = data.filter((movie) => movie.name_vn.toLowerCase() === filter_seach_name.toLowerCase())
+    }
 
-    console.log(res)
-    const userList = document.getElementById("movies-DB")
-    userList.innerHTML = res
-})
+    if (filter_status != "all") {
+        
+        const today = new Date(); 
+
+        if (filter_status == "currently_showing") {
+            data = data.filter((movie) => {
+                const releaseDate = new Date(movie.release_date);
+                const endDate = new Date(movie.end_date);
+                return releaseDate <= today && endDate >= today;
+            });
+        }
+
+        if (filter_status == "coming_soon") {
+            data = data.filter((movie) => {
+                const releaseDate = new Date(movie.release_date);
+                return today < releaseDate;
+            });
+        }
+
+        if (filter_status == "ended") {
+            data = data.filter((movie) => {
+                const endDate = new Date(movie.end_date);
+                return today > endDate;
+            });
+        }
+
+    }
+    if (filter_sort != "none") {
+        if (filter_sort === "name") {
+            data = data.sort((a, b) => a.name_vn.localeCompare(b.name_vn));
+        }
+        if (filter_sort === "time") {
+            data = data.sort((a, b) => a.time - b.time);
+        }
+    }
+    return data
+}
+
+function show_movies() {
+    fetch(API_USER) 
+    .then((res) => res.json())
+    .then((data) => {
+        
+        data = Filter(data);
+        let res = ""
+        data.forEach((movie)=>{
+            res += movie_block(
+                movie.name_vn, movie.director, movie.actor, movie.country_name_vn, 
+                movie.formats_name_vn, movie.type_name_vn, movie.release_date, 
+                movie.end_date, movie.image, movie.time, movie.limitage_vn, 
+                movie.language_vn, movie.background_image_url, movie.brief_vn
+            )
+        })
+
+        const userList = document.getElementById("movies-DB")
+        userList.innerHTML = res
+    })
+}
+
+show_movies()
+
+document.getElementById("filter").addEventListener("click", () => {
+    show_movies()
+});
+

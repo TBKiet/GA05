@@ -22,16 +22,19 @@ function Filter(data) {
     filter_seach_name = document.getElementById("search").value 
  
     if (filter_seach_name != "") {
-        data = data.filter((user) => user.username.toLowerCase() == filter_seach_name.toLowerCase())
+        data = data.filter((user) => user.username.toLowerCase() === filter_seach_name.toLowerCase())
     }
 
-    if (filter_role != "all") data = data.filter((user) => user.role == filter_role);
-    if (filter_sort != "all") {
+    if (filter_role != "all") data = data.filter((user) => user.role === filter_role);
+    if (filter_sort != "none") {
         if (filter_sort === "name") {
             data = data.sort((a, b) => a.username.localeCompare(b.username));
         }
         if (filter_sort === "role") {
             data = data.sort((a, b) => a.role.localeCompare(b.role));
+        }
+        if (filter_sort === "email") {
+            data = data.sort((a, b) => a.email.localeCompare(b.email));
         }
     }
     return data

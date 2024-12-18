@@ -1,0 +1,12 @@
+.count {
+    font-size: 40px;
+    font-weight: 700;
+    color: #4caf50;
+    margin-bottom: 10px;
+}
+
+.description {
+    font-size: 14px;
+    color: #777;
+    margin-top: 10px;
+}
