@@ -54,7 +54,7 @@
                     </div>
                     <div class="content-card">
                         <h3>Total Tickets</h3>
-                        <p>0</p>
+                        <p id = "value-total-tickets">0</p>
                     </div>
                 </div>
               
@@ -76,13 +76,18 @@
                     </div>
                     <div class="content-card">
                         <h3>Total Revenue</h3>
-                        <p>0</p>
+                        <p id = "value-total-revenue">0</p>
                     </div>
                 </div>
+              </div>
+
+              <div class="chart-container">
+                <canvas id="pieChart"></canvas>
               </div>
             
         </div>
 
         <script src="scripts.js"> </script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </body>
 </html>

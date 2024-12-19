@@ -46,3 +46,7 @@
     color: #333;
   }
   
+  .chart-container {
+    width: 400px;
+    margin: 50px auto;
+    }
