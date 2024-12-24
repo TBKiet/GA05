@@ -1,0 +1,52 @@
+/* Tổng thể bố cục các thẻ */
+.cards {
+    display: flex;
+    gap: 20px;
+    justify-content: space-around;
+    padding: 20px;
+  }
+  
+  /* Thẻ đơn */
+  .card {
+    width: 200px;
+    height: 100px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    gap: 15px;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Icon chung */
+  .icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 24px;
+  }
+  
+  /* Nội dung */
+  .content-card h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .content-card p {
+    margin: 5px 0 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .chart-container {
+    width: 400px;
+    margin: 50px auto;
+    }
